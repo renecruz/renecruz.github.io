@@ -1,5 +1,5 @@
 html, body { color: #434242; font-family: 'Open Sans', sans-serif !important; height: 100%; }
-body { background: #F3EFE0; font-size: 15px; line-height: 1.64; }
+body { background: #F3EFE0; font-size: 35px; line-height: 1.64; }
 
 .jumbotron {
 	background: no-repeat center right fixed url(background.jpg);
@@ -29,7 +29,7 @@ body { background: #F3EFE0; font-size: 15px; line-height: 1.64; }
 	right: 30px;
 	top: 30px;
 }*/
-.jumbotron .overlay { background-color: #22A39F; position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; opacity: 0.75; filter:alpha(opacity=75); z-index: 2; }
+.jumbotron .overlay { background-color: #6B00C0; position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; opacity: 0.75; filter:alpha(opacity=75); z-index: 2; }
 
 .jumbotron .container { position: relative; top: 28%; z-index: 4; text-align: center; }
 .jumbotron .container > * { text-align: center; color: #FFFFFF; }
