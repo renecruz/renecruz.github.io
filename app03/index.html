@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CambioMX · Conversión de Divisas</title>
+  <style>
+/* ══════════════════════════════════════════
+   CambioMX · styles.css
+   Estética: Fintech oscuro · acento dorado
+   Fuentes: Space Grotesk + DM Mono
+══════════════════════════════════════════ */
+
+/* ── Variables ── */
+:root {
+  --bg:          #f4f5f7;
+  --surface:     #ffffff;
+  --surface-2:   #f0f1f4;
+  --border:      #dde0e8;
+  --border-2:    #c8ccd8;
+
+  --gold:        oklch(0.52 0.14 85);
+  --gold-dim:    oklch(0.60 0.10 85);
+  --gold-glow:   oklch(0.52 0.14 85 / 0.12);
+  --green:       oklch(0.50 0.17 145);
+  --green-dim:   oklch(0.50 0.17 145 / 0.15);
+  --red:         oklch(0.52 0.18 25);
+  --red-dim:     oklch(0.52 0.18 25 / 0.12);
+
+  --text-1:      #1a1d27;
+  --text-2:      #4a5068;
+  --text-3:      #8b91a8;
+
+  --radius-sm:   8px;
+  --radius-md:   14px;
+  --radius-lg:   20px;
+
+  --mono: 'DM Mono', monospace;
+  --sans: 'Space Grotesk', system-ui, sans-serif;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text-1);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image:
+    radial-gradient(ellipse 80% 40% at 50% -10%, oklch(0.52 0.14 85 / 0.08), transparent),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 39px,
+      oklch(0 0 0 / 0.03) 40px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      oklch(0 0 0 / 0.03) 40px
+    );
+}
+
+/* ══ HEADER ══ */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  background: oklch(0.99 0.005 250 / 0.92);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-logo {
+  width: 42px;
+  height: 42px;
+  background: var(--gold-glow);
+  border: 1px solid var(--gold-dim);
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  color: var(--gold);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.brand-name {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--text-1);
+}
+.brand-name strong { color: var(--gold); font-weight: 700; }
+
+.brand-sub {
+  font-size: 11px;
+  color: var(--text-3);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.header-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* ══ MAIN ══ */
+.main-wrap {
+  flex: 1;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ══ CONVERTER CARD ══ */
+.converter-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  box-shadow: 0 24px 64px oklch(0 0 0 / 0.4), 0 0 0 1px var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.converter-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 40% at 50% 0%, var(--gold-glow), transparent);
+  pointer-events: none;
+}
+
+.converter-top {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 28px;
+}
+
+/* ── Field Groups ── */
+.field-group { display: flex; flex-direction: column; gap: 10px; }
+
+.field-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.amount-input-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.amount-input-wrap:focus-within {
+  border-color: var(--gold-dim);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+.currency-flag {
+  padding: 0 12px;
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.amount-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text-1);
+  padding: 14px 0;
+  width: 0;
+  min-width: 0;
+}
+.amount-input::placeholder { color: var(--text-3); }
+
+/* Remove number arrows */
+.amount-input::-webkit-outer-spin-button,
+.amount-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.amount-input[type=number] { -moz-appearance: textfield; }
+
+.currency-select {
+  background: var(--surface-2);
+  border: none;
+  border-left: 1px solid var(--border);
+  outline: none;
+  color: var(--text-1);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 0 12px;
+  height: 100%;
+  cursor: pointer;
+  min-width: 140px;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b91a8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+.currency-select option { background: #f0f1f4; color: #1a1d27; }
+
+/* ── Quick Amounts ── */
+.quick-amounts {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.quick-label {
+  font-size: 11px;
+  color: var(--text-3);
+  margin-right: 2px;
+}
+
+.quick-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-2);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.quick-btn:hover {
+  background: var(--gold-glow);
+  border-color: var(--gold-dim);
+  color: var(--gold);
+}
+
+/* ── Swap Button ── */
+.swap-arrow {
+  padding-top: 28px;
+  display: flex;
+  justify-content: center;
+}
+
+.swap-btn {
+  width: 44px;
+  height: 44px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font-size: 20px;
+  color: var(--text-2);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s;
+}
+.swap-btn:hover {
+  background: var(--gold-glow);
+  border-color: var(--gold-dim);
+  color: var(--gold);
+  transform: rotate(180deg);
+}
+
+/* ── Result Box ── */
+.field-group--result {}
+
+.result-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  min-height: 60px;
+}
+
+.result-flag { font-size: 20px; flex-shrink: 0; }
+
+.result-content {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.result-amount {
+  font-family: var(--mono);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.result-currency {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-3);
+  letter-spacing: 0.05em;
+}
+
+.tasa-info {
+  font-size: 12px;
+  color: var(--text-3);
+  font-style: italic;
+}
+
+/* ── Error ── */
+.error-msg {
+  background: var(--red-dim);
+  border: 1px solid var(--red);
+  border-radius: var(--radius-sm);
+  color: var(--red);
+  font-size: 13px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+}
+
+/* ── Botón Principal ── */
+.btn-convert {
+  width: 100%;
+  background: var(--gold);
+  color: #0d0f14;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.btn-convert::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, oklch(1 0 0 / 0.12), transparent);
+}
+.btn-convert:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px var(--gold-glow);
+  filter: brightness(1.05);
+}
+.btn-convert:active { transform: translateY(0); }
+
+/* ══ RATES PANEL ══ */
+.rates-panel,
+.history-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+}
+
+.rates-header,
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.rates-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-1);
+}
+.rates-title em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--text-3);
+  font-size: 13px;
+}
+
+.rates-toggle {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--text-3);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.rates-toggle:hover { color: var(--gold); border-color: var(--gold-dim); }
+
+.rates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+  transition: opacity 0.3s;
+}
+.rates-grid.hidden { display: none; }
+
+/* Rate Card */
+.rate-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.rate-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.rate-card:hover { border-color: var(--border-2); transform: translateY(-2px); }
+.rate-card:hover::before { transform: scaleX(1); }
+
+.rate-card-flag { font-size: 22px; margin-bottom: 8px; }
+.rate-card-code {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text-3);
+  text-transform: uppercase;
+}
+.rate-card-name { font-size: 12px; color: var(--text-2); margin-bottom: 10px; }
+.rate-card-value {
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--gold);
+}
+.rate-card-sub { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+
+/* ══ HISTORY ══ */
+.history-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-empty {
+  color: var(--text-3);
+  font-size: 13px;
+  font-style: italic;
+  padding: 8px 0;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.history-left { display: flex; flex-direction: column; gap: 2px; }
+.history-from {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--text-1);
+}
+.history-time {
+  font-size: 11px;
+  color: var(--text-3);
+}
+
+.history-arrow {
+  font-size: 18px;
+  color: var(--text-3);
+}
+
+.history-to {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--gold);
+  text-align: right;
+}
+
+/* ══ FOOTER ══ */
+.site-footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-3);
+  padding: 24px;
+  border-top: 1px solid var(--border);
+  letter-spacing: 0.04em;
+}
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 680px) {
+  .site-header { padding: 16px 20px; }
+  .header-badge { display: none; }
+
+  .main-wrap { padding: 28px 16px 48px; }
+
+  .converter-card { padding: 24px 20px; }
+
+  .converter-top {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .swap-arrow { padding-top: 0; }
+  .swap-btn { transform: rotate(90deg); }
+  .swap-btn:hover { transform: rotate(270deg); }
+
+  .rates-panel, .history-panel { padding: 20px; }
+}
+
+</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ══ ENCABEZADO ══ -->
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-logo">₱</div>
+      <div class="brand-text">
+        <span class="brand-name">Cambio<strong>MX</strong></span>
+        <span class="brand-sub">Conversión de Divisas</span>
+      </div>
+    </div>
+    <div class="header-badge">
+      <span class="badge-dot"></span>
+      Tasas actualizadas · Abril 2026
+    </div>
+  </header>
+
+  <!-- ══ HÉROE: CONVERTIDOR PRINCIPAL ══ -->
+  <main class="main-wrap">
+    <section class="converter-card">
+
+      <div class="converter-top">
+        <div class="field-group">
+          <label class="field-label" for="monto">Cantidad a convertir</label>
+          <div class="amount-input-wrap">
+            <span class="currency-flag" id="flagFrom">🇺🇸</span>
+            <input
+              type="number"
+              id="monto"
+              class="amount-input"
+              placeholder="0.00"
+              min="0"
+              step="any"
+            />
+            <select id="monedaOrigen" class="currency-select">
+              <option value="USD">USD – Dólar</option>
+              <option value="EUR">EUR – Euro</option>
+              <option value="GBP">GBP – Libra</option>
+              <option value="JPY">JPY – Yen</option>
+              <option value="CAD">CAD – Dólar CA</option>
+              <option value="CHF">CHF – Franco Suizo</option>
+              <option value="CNY">CNY – Yuan</option>
+              <option value="BRL">BRL – Real</option>
+              <option value="ARS">ARS – Peso AR</option>
+              <option value="COP">COP – Peso CO</option>
+            </select>
+          </div>
+          <div class="quick-amounts">
+            <span class="quick-label">Acceso rápido:</span>
+            <button class="quick-btn" data-val="100">100</button>
+            <button class="quick-btn" data-val="500">500</button>
+            <button class="quick-btn" data-val="1000">1,000</button>
+            <button class="quick-btn" data-val="5000">5,000</button>
+            <button class="quick-btn" data-val="10000">10,000</button>
+          </div>
+        </div>
+
+        <div class="swap-arrow">
+          <button class="swap-btn" id="swapBtn" title="Convertir MXN → divisa">
+            ⇄
+          </button>
+        </div>
+
+        <div class="field-group field-group--result">
+          <label class="field-label">Resultado en pesos mexicanos</label>
+          <div class="result-box">
+            <span class="result-flag">🇲🇽</span>
+            <div class="result-content">
+              <span class="result-amount" id="resultadoMXN">—</span>
+              <span class="result-currency">MXN</span>
+            </div>
+          </div>
+          <div class="tasa-info" id="tasaInfo">Selecciona una moneda e ingresa una cantidad</div>
+        </div>
+      </div>
+
+      <!-- Mensaje de error -->
+      <div class="error-msg" id="errorMsg" hidden>
+        ⚠ Ingresa una cantidad mayor a cero para convertir.
+      </div>
+
+      <!-- Botón principal -->
+      <button class="btn-convert" id="btnConvertir">Convertir ahora</button>
+
+    </section>
+
+    <!-- ══ PANEL DE TASAS ══ -->
+    <section class="rates-panel">
+      <div class="rates-header">
+        <h2 class="rates-title">Todas las tasas · <em>por 1 unidad → MXN</em></h2>
+        <button class="rates-toggle" id="ratesToggle">Ocultar tabla</button>
+      </div>
+      <div class="rates-grid" id="ratesGrid">
+        <!-- generado por JS -->
+      </div>
+    </section>
+
+    <!-- ══ HISTORIAL DE CONVERSIONES ══ -->
+    <section class="history-panel">
+      <div class="history-header">
+        <h2 class="rates-title">Historial de conversiones</h2>
+        <button class="rates-toggle" id="clearHistory">Limpiar</button>
+      </div>
+      <ul class="history-list" id="historialLista">
+        <li class="history-empty">Aún no has realizado conversiones.</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- ══ PIE DE PÁGINA ══ -->
+  <footer class="site-footer">
+    Academia IDS · Proyecto Individual de JavaScript · Conversión de Divisas
+  </footer>
+
+  <script>
+/* ══════════════════════════════════════════
+   CambioMX · script.js
+   Calculadora de Conversión de Divisas → MXN
+   Academia IDS · Proyecto JavaScript
+
+   Conceptos demostrados:
+   ✦ Funciones (declaradas y expresiones)
+   ✦ Condicionales (if / else if / else)
+   ✦ Ciclos (for...of, forEach)
+   ✦ Manipulación del DOM
+   ✦ Arrays y Objetos
+══════════════════════════════════════════ */
+
+// ══════════════════════════════════════════
+// 1. DATOS: Catálogo de monedas y tasas
+//    (1 unidad de divisa = X pesos MXN)
+// ══════════════════════════════════════════
+
+const MONEDAS = [
+  { codigo: "USD", nombre: "Dólar Americano",   pais: "Estados Unidos", bandera: "🇺🇸", tasa: 17.15 },
+  { codigo: "EUR", nombre: "Euro",              pais: "Eurozona",       bandera: "🇪🇺", tasa: 18.72 },
+  { codigo: "GBP", nombre: "Libra Esterlina",   pais: "Reino Unido",    bandera: "🇬🇧", tasa: 21.40 },
+  { codigo: "JPY", nombre: "Yen Japonés",       pais: "Japón",          bandera: "🇯🇵", tasa: 0.1142 },
+  { codigo: "CAD", nombre: "Dólar Canadiense",  pais: "Canadá",         bandera: "🇨🇦", tasa: 12.63 },
+  { codigo: "CHF", nombre: "Franco Suizo",      pais: "Suiza",          bandera: "🇨🇭", tasa: 19.35 },
+  { codigo: "CNY", nombre: "Yuan Chino",        pais: "China",          bandera: "🇨🇳", tasa: 2.36  },
+  { codigo: "BRL", nombre: "Real Brasileño",    pais: "Brasil",         bandera: "🇧🇷", tasa: 3.41  },
+  { codigo: "ARS", nombre: "Peso Argentino",    pais: "Argentina",      bandera: "🇦🇷", tasa: 0.019 },
+  { codigo: "COP", nombre: "Peso Colombiano",   pais: "Colombia",       bandera: "🇨🇴", tasa: 0.0042},
+];
+
+// ══════════════════════════════════════════
+// 2. HISTORIAL de conversiones (array)
+// ══════════════════════════════════════════
+
+let historial = [];
+
+// ══════════════════════════════════════════
+// 3. REFERENCIAS al DOM
+// ══════════════════════════════════════════
+
+const montoInput      = document.getElementById("monto");
+const monedaSelect    = document.getElementById("monedaOrigen");
+const flagFrom        = document.getElementById("flagFrom");
+const resultadoMXN    = document.getElementById("resultadoMXN");
+const tasaInfo        = document.getElementById("tasaInfo");
+const errorMsg        = document.getElementById("errorMsg");
+const btnConvertir    = document.getElementById("btnConvertir");
+const swapBtn         = document.getElementById("swapBtn");
+const ratesGrid       = document.getElementById("ratesGrid");
+const ratesToggle     = document.getElementById("ratesToggle");
+const historialLista  = document.getElementById("historialLista");
+const clearHistoryBtn = document.getElementById("clearHistory");
+
+// ══════════════════════════════════════════
+// 4. FUNCIONES PRINCIPALES
+// ══════════════════════════════════════════
+
+/**
+ * Busca la información de una moneda por su código.
+ * @param {string} codigo - El código de la moneda (ej. "USD")
+ * @returns {Object|null} El objeto de la moneda o null si no existe
+ */
+function obtenerMoneda(codigo) {
+  // Ciclo for...of para recorrer el catálogo
+  for (const moneda of MONEDAS) {
+    if (moneda.codigo === codigo) {
+      return moneda;
+    }
+  }
+  return null; // Condicional implícito: si no se encontró, retorna null
+}
+
+/**
+ * Convierte un monto de una divisa a pesos MXN.
+ * @param {number} monto  - Cantidad en la moneda origen
+ * @param {number} tasa   - Tasa de cambio (1 unidad → MXN)
+ * @returns {number} El monto equivalente en MXN
+ */
+function convertirAMXN(monto, tasa) {
+  return monto * tasa;
+}
+
+/**
+ * Formatea un número como moneda con símbolo y decimales.
+ * @param {number} valor   - El número a formatear
+ * @param {string} moneda  - Código de moneda (ej. "MXN")
+ * @returns {string} Cadena formateada (ej. "$1,234.56 MXN")
+ */
+function formatearMoneda(valor, moneda) {
+  // Condicional: elegir decimales según la moneda
+  let decimales;
+  if (moneda === "JPY") {
+    decimales = 0; // El yen no usa decimales
+  } else if (moneda === "ARS" || moneda === "COP") {
+    decimales = 2;
+  } else {
+    decimales = 2;
+  }
+
+  const formateado = valor.toLocaleString("es-MX", {
+    minimumFractionDigits: decimales,
+    maximumFractionDigits: decimales,
+  });
+
+  return `$${formateado}`;
+}
+
+/**
+ * Genera la hora actual como string legible.
+ * @returns {string} Hora en formato HH:MM:SS
+ */
+function obtenerHora() {
+  const ahora = new Date();
+  const h = String(ahora.getHours()).padStart(2, "0");
+  const m = String(ahora.getMinutes()).padStart(2, "0");
+  const s = String(ahora.getSeconds()).padStart(2, "0");
+  return `${h}:${m}:${s}`;
+}
+
+// ══════════════════════════════════════════
+// 5. FUNCIONES DE RENDERIZADO (DOM)
+// ══════════════════════════════════════════
+
+/**
+ * Dibuja las tarjetas de tasas de cambio en el panel.
+ * Usa un ciclo forEach para iterar sobre el catálogo.
+ */
+function renderizarTasas() {
+  ratesGrid.innerHTML = ""; // Limpiar contenido previo
+
+  // Ciclo forEach sobre el array MONEDAS
+  MONEDAS.forEach(function (moneda) {
+    const card = document.createElement("div");
+    card.className = "rate-card";
+    card.setAttribute("data-codigo", moneda.codigo);
+
+    card.innerHTML = `
+      <div class="rate-card-flag">${moneda.bandera}</div>
+      <div class="rate-card-code">${moneda.codigo}</div>
+      <div class="rate-card-name">${moneda.nombre}</div>
+      <div class="rate-card-value">${formatearMoneda(moneda.tasa, "MXN")}</div>
+      <div class="rate-card-sub">por 1 ${moneda.codigo}</div>
+    `;
+
+    // Al hacer clic en una tarjeta → seleccionar esa moneda
+    card.addEventListener("click", function () {
+      monedaSelect.value = moneda.codigo;
+      actualizarBandera();
+      // Si hay un monto, convertir automáticamente
+      if (montoInput.value) {
+        realizarConversion();
+      }
+    });
+
+    ratesGrid.appendChild(card);
+  });
+}
+
+/**
+ * Agrega una entrada al historial de conversiones y actualiza el DOM.
+ * @param {string} desde  - Texto del monto origen (ej. "100.00 USD")
+ * @param {string} hacia  - Texto del resultado (ej. "$1,715.00 MXN")
+ */
+function agregarAlHistorial(desde, hacia) {
+  // Agregar al inicio del array (más reciente primero)
+  historial.unshift({ desde, hacia, hora: obtenerHora() });
+
+  // Condicional: mantener máximo 8 registros en el historial
+  if (historial.length > 8) {
+    historial.pop(); // Eliminar el más antiguo
+  }
+
+  renderizarHistorial();
+}
+
+/**
+ * Renderiza el historial en el DOM usando un ciclo for...of.
+ */
+function renderizarHistorial() {
+  historialLista.innerHTML = ""; // Limpiar lista
+
+  // Condicional: mostrar mensaje si no hay entradas
+  if (historial.length === 0) {
+    const vacio = document.createElement("li");
+    vacio.className = "history-empty";
+    vacio.textContent = "Aún no has realizado conversiones.";
+    historialLista.appendChild(vacio);
+    return;
+  }
+
+  // Ciclo for...of para renderizar cada entrada
+  for (const entrada of historial) {
+    const item = document.createElement("li");
+    item.className = "history-item";
+
+    item.innerHTML = `
+      <div class="history-left">
+        <span class="history-from">${entrada.desde}</span>
+        <span class="history-time">⏱ ${entrada.hora}</span>
+      </div>
+      <span class="history-arrow">→</span>
+      <span class="history-to">${entrada.hacia}</span>
+    `;
+
+    historialLista.appendChild(item);
+  }
+}
+
+/**
+ * Actualiza la bandera mostrada junto al input según la moneda seleccionada.
+ */
+function actualizarBandera() {
+  const codigo  = monedaSelect.value;
+  const moneda  = obtenerMoneda(codigo);
+
+  // Condicional: si existe la moneda, actualizar bandera
+  if (moneda !== null) {
+    flagFrom.textContent = moneda.bandera;
+  } else {
+    flagFrom.textContent = "💱";
+  }
+}
+
+// ══════════════════════════════════════════
+// 6. FUNCIÓN PRINCIPAL DE CONVERSIÓN
+// ══════════════════════════════════════════
+
+/**
+ * Lee el formulario, valida, convierte y muestra el resultado.
+ * Integra funciones, condicionales y manipulación del DOM.
+ */
+function realizarConversion() {
+  const montoRaw = parseFloat(montoInput.value);
+  const codigo   = monedaSelect.value;
+  const moneda   = obtenerMoneda(codigo);
+
+  // ── Validaciones con condicionales ──
+  if (isNaN(montoRaw) || montoRaw <= 0) {
+    // Mostrar error, limpiar resultado
+    errorMsg.hidden = false;
+    resultadoMXN.textContent = "—";
+    tasaInfo.textContent = "Ingresa una cantidad válida";
+    return; // Salir de la función
+  }
+
+  if (moneda === null) {
+    errorMsg.hidden = false;
+    resultadoMXN.textContent = "—";
+    return;
+  }
+
+  // Ocultar error si pasó las validaciones
+  errorMsg.hidden = true;
+
+  // ── Cálculo usando la función de conversión ──
+  const resultadoValor = convertirAMXN(montoRaw, moneda.tasa);
+  const resultadoTexto = formatearMoneda(resultadoValor, "MXN");
+
+  // ── Actualizar el DOM con el resultado ──
+  resultadoMXN.textContent = resultadoTexto;
+
+  // ── Calcular tasa inversa ──
+  const tasaInversa = (1 / moneda.tasa).toFixed(4);
+  tasaInfo.textContent =
+    `1 ${codigo} = ${formatearMoneda(moneda.tasa, "MXN")} MXN  ·  ` +
+    `1 MXN = ${tasaInversa} ${codigo}`;
+
+  // ── Agregar al historial ──
+  const montoFormateado = `${formatearMoneda(montoRaw, codigo).replace("$", "")} ${codigo}`;
+  agregarAlHistorial(montoFormateado, resultadoTexto + " MXN");
+
+  // ── Animación de énfasis en el resultado ──
+  resultadoMXN.classList.remove("resultado-animado");
+  void resultadoMXN.offsetWidth; // Forzar reflow para reiniciar animación
+  resultadoMXN.classList.add("resultado-animado");
+}
+
+// ══════════════════════════════════════════
+// 7. MODO INVERSO: MXN → Divisa
+// ══════════════════════════════════════════
+
+let modoInverso = false; // Estado del modo de conversión
+
+/**
+ * Alterna entre modo normal (Divisa→MXN) y modo inverso (MXN→Divisa).
+ */
+function alternarModo() {
+  modoInverso = !modoInverso;
+
+  const monedaActual = obtenerMoneda(monedaSelect.value);
+
+  // Condicional: ajustar etiquetas según el modo
+  if (modoInverso) {
+    // Entrada: MXN → bandera mexicana en input
+    document.querySelector(".field-label").textContent = "Cantidad en pesos mexicanos (MXN)";
+    flagFrom.textContent = "🇲🇽";
+    montoInput.placeholder = "0.00 MXN";
+    swapBtn.title = "Convertir Divisa → MXN";
+    // Resultado: mostrar bandera y código de la divisa destino
+    document.querySelector(".result-flag").textContent = monedaActual ? monedaActual.bandera : "💱";
+    document.querySelector(".result-currency").textContent = monedaActual ? monedaActual.codigo : "???";
+  } else {
+    // Entrada: Divisa → bandera de la moneda seleccionada
+    document.querySelector(".field-label").textContent = "Cantidad a convertir";
+    actualizarBandera();
+    montoInput.placeholder = "0.00";
+    swapBtn.title = "Convertir MXN → Divisa";
+    // Resultado: volver a MXN
+    document.querySelector(".result-flag").textContent = "🇲🇽";
+    document.querySelector(".result-currency").textContent = "MXN";
+  }
+
+  // Limpiar resultado al cambiar modo
+  resultadoMXN.textContent = "—";
+  tasaInfo.textContent = "Selecciona una moneda e ingresa una cantidad";
+  montoInput.value = "";
+  errorMsg.hidden = true;
+}
+
+// Versión de conversión adaptada al modo activo
+function realizarConversionAdaptada() {
+  if (!modoInverso) {
+    realizarConversion();
+    return;
+  }
+
+  // Modo inverso: MXN → Divisa seleccionada
+  const montoMXN = parseFloat(montoInput.value);
+  const codigo   = monedaSelect.value;
+  const moneda   = obtenerMoneda(codigo);
+
+  if (isNaN(montoMXN) || montoMXN <= 0) {
+    errorMsg.hidden = false;
+    resultadoMXN.textContent = "—";
+    return;
+  }
+
+  errorMsg.hidden = true;
+
+  const resultadoValor  = montoMXN / moneda.tasa;
+  const decimales       = codigo === "JPY" ? 0 : 2;
+  const resultadoTexto  = resultadoValor.toLocaleString("es-MX", {
+    minimumFractionDigits: decimales,
+    maximumFractionDigits: decimales,
+  });
+
+  resultadoMXN.textContent = `$${resultadoTexto}`;
+  tasaInfo.textContent = `1 MXN = ${(1 / moneda.tasa).toFixed(4)} ${codigo}`;
+
+  // Actualizar bandera y label del resultado para reflejar la divisa destino
+  document.querySelector(".result-flag").textContent = moneda.bandera;
+  document.querySelector(".result-currency").textContent = moneda.codigo;
+
+  const mxnFormateado = `${formatearMoneda(montoMXN, "MXN")} MXN`;
+  agregarAlHistorial(mxnFormateado, `$${resultadoTexto} ${codigo}`);
+
+  resultadoMXN.classList.remove("resultado-animado");
+  void resultadoMXN.offsetWidth;
+  resultadoMXN.classList.add("resultado-animado");
+}
+
+// ══════════════════════════════════════════
+// 8. EVENTOS
+// ══════════════════════════════════════════
+
+// Botón principal "Convertir ahora"
+btnConvertir.addEventListener("click", realizarConversionAdaptada);
+
+// Convertir también al presionar Enter en el input
+montoInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    realizarConversionAdaptada();
+  }
+});
+
+// Conversión en tiempo real al escribir
+montoInput.addEventListener("input", function () {
+  // Condicional: solo convertir si hay valor y moneda
+  if (this.value && monedaSelect.value) {
+    realizarConversionAdaptada();
+  } else {
+    resultadoMXN.textContent = "—";
+    tasaInfo.textContent = "Selecciona una moneda e ingresa una cantidad";
+    errorMsg.hidden = true;
+  }
+});
+
+// Cambio de moneda en el selector
+monedaSelect.addEventListener("change", function () {
+  if (!modoInverso) {
+    // Modo normal: la bandera del input cambia
+    actualizarBandera();
+  } else {
+    // Modo inverso: la bandera del resultado cambia
+    const moneda = obtenerMoneda(this.value);
+    if (moneda) {
+      document.querySelector(".result-flag").textContent = moneda.bandera;
+      document.querySelector(".result-currency").textContent = moneda.codigo;
+    }
+  }
+  // Reconvertir si ya hay un monto
+  if (montoInput.value) {
+    realizarConversionAdaptada();
+  }
+});
+
+// Botón de intercambio (swap)
+swapBtn.addEventListener("click", alternarModo);
+
+// Botones de acceso rápido (ciclo forEach)
+const quickBtns = document.querySelectorAll(".quick-btn");
+quickBtns.forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    montoInput.value = this.getAttribute("data-val");
+    realizarConversionAdaptada();
+  });
+});
+
+// Toggle del panel de tasas
+ratesToggle.addEventListener("click", function () {
+  const oculto = ratesGrid.classList.toggle("hidden");
+  // Condicional: actualizar texto del botón
+  this.textContent = oculto ? "Mostrar tabla" : "Ocultar tabla";
+});
+
+// Limpiar historial
+clearHistoryBtn.addEventListener("click", function () {
+  historial = []; // Vaciar el array
+  renderizarHistorial();
+});
+
+// ══════════════════════════════════════════
+// 9. INICIALIZACIÓN
+//    Ejecutar al cargar la página
+// ══════════════════════════════════════════
+
+(function inicializar() {
+  renderizarTasas();   // Dibujar panel de tasas
+  actualizarBandera(); // Mostrar bandera inicial
+  renderizarHistorial(); // Historial vacío
+
+  // Agregar animación CSS para el resultado (inyectada desde JS)
+  const style = document.createElement("style");
+  style.textContent = `
+    @keyframes resaltarResultado {
+      0%   { color: oklch(0.95 0.2 85); transform: scale(1.04); }
+      100% { color: oklch(0.78 0.14 85); transform: scale(1); }
+    }
+    .resultado-animado {
+      animation: resaltarResultado 0.4s ease-out forwards;
+    }
+  `;
+  document.head.appendChild(style);
+
+  console.log("CambioMX inicializado correctamente.");
+  console.log(`Monedas disponibles: ${MONEDAS.length}`);
+  console.log("Monedas:", MONEDAS.map(m => m.codigo));
+})();
+
+</script>
+</body>
+</html>

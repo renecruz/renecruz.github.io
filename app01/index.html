@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>René Cruz Flores — Software Architect & IA Practitioner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+/* ============================================
+   styles.css — René Cruz Flores Portfolio
+   ============================================
+   Índice:
+   1. Tokens / Variables
+   2. Reset & Base
+   3. Utilidades
+   4. Header & Nav
+   5. Hero
+   6. Secciones (shared)
+   7. Sobre mí
+   8. Habilidades
+   9. Proyectos
+   10. Footer
+   11. Responsive
+============================================ */
+
+
+/* ─────────────────────────────────────────
+   1. TOKENS / VARIABLES
+───────────────────────────────────────── */
+:root {
+  /* Colores */
+  --clr-bg:            oklch(97% 0.008 240);
+  --clr-bg-alt:        oklch(94% 0.010 240);
+  --clr-bg-dark:       oklch(16% 0.015 255);
+  --clr-text:          oklch(18% 0.015 255);
+  --clr-text-muted:    oklch(48% 0.020 255);
+  --clr-border:        oklch(87% 0.012 240);
+  --clr-accent:        oklch(52% 0.18 255);
+  --clr-accent-light:  oklch(72% 0.14 255);
+  --clr-accent-hover:  oklch(44% 0.20 255);
+
+  /* Tipografía */
+  --ff-sans:  'DM Sans', system-ui, sans-serif;
+  --ff-mono:  'DM Mono', 'Courier New', monospace;
+
+  --fs-xs:   0.75rem;
+  --fs-sm:   0.875rem;
+  --fs-base: 1rem;
+  --fs-lg:   1.125rem;
+  --fs-xl:   1.5rem;
+  --fs-2xl:  2rem;
+  --fs-3xl:  2.75rem;
+  --fs-4xl:  3.75rem;
+
+  /* Espaciado */
+  --sp-1:  0.25rem;
+  --sp-2:  0.5rem;
+  --sp-3:  0.75rem;
+  --sp-4:  1rem;
+  --sp-6:  1.5rem;
+  --sp-8:  2rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-24: 6rem;
+
+  /* Layout */
+  --container-max: 1140px;
+  --container-pad: var(--sp-6);
+
+  /* Bordes & sombras */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  16px;
+  --shadow-sm:  0 1px 3px oklch(0% 0 0 / 0.06), 0 1px 2px oklch(0% 0 0 / 0.04);
+  --shadow-md:  0 4px 16px oklch(0% 0 0 / 0.08);
+  --shadow-lg:  0 12px 40px oklch(0% 0 0 / 0.12);
+
+  /* Transición base */
+  --transition: 200ms ease;
+}
+
+
+/* ─────────────────────────────────────────
+   2. RESET & BASE
+───────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--ff-sans);
+  font-size: var(--fs-base);
+  line-height: 1.65;
+  color: var(--clr-text);
+  background-color: var(--clr-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+
+ul { list-style: none; }
+
+h1, h2, h3, h4 {
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+p { text-wrap: pretty; }
+
+/* Focus visible accesible */
+:focus-visible {
+  outline: 2px solid var(--clr-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+
+/* ─────────────────────────────────────────
+   3. UTILIDADES
+───────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+.mono { font-family: var(--ff-mono); }
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-6);
+  font-family: var(--ff-sans);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition),
+              border-color var(--transition), box-shadow var(--transition),
+              transform var(--transition);
+  white-space: nowrap;
+}
+
+.btn:hover  { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+.btn--primary {
+  background: var(--clr-accent);
+  color: #fff;
+  border-color: var(--clr-accent);
+}
+.btn--primary:hover {
+  background: var(--clr-accent-hover);
+  border-color: var(--clr-accent-hover);
+  box-shadow: 0 4px 16px oklch(52% 0.18 255 / 0.3);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--clr-accent);
+  border-color: var(--clr-accent);
+}
+.btn--ghost:hover {
+  background: oklch(52% 0.18 255 / 0.06);
+}
+
+.btn--lg {
+  padding: var(--sp-4) var(--sp-8);
+  font-size: var(--fs-base);
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: var(--sp-1) var(--sp-3);
+  border-radius: 100px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+}
+.badge--green {
+  background: oklch(60% 0.14 160 / 0.12);
+  color: oklch(40% 0.14 160);
+}
+
+/* Tags */
+.tag {
+  display: inline-block;
+  padding: 2px var(--sp-2);
+  background: var(--clr-bg-alt);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--ff-mono);
+  font-size: var(--fs-xs);
+  color: var(--clr-text-muted);
+}
+
+
+/* ─────────────────────────────────────────
+   4. HEADER & NAV
+───────────────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: oklch(97% 0.008 240 / 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  gap: var(--sp-8);
+}
+
+/* Logo */
+.nav__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-weight: 600;
+  font-size: var(--fs-lg);
+  flex-shrink: 0;
+}
+
+.nav__logo-initials {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  background: var(--clr-accent);
+  color: #fff;
+  border-radius: var(--radius-md);
+  font-family: var(--ff-mono);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+}
+
+/* Nav links */
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.nav__link {
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--clr-text-muted);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background var(--transition);
+}
+.nav__link:hover {
+  color: var(--clr-text);
+  background: var(--clr-bg-alt);
+}
+.nav__link--cta {
+  background: var(--clr-accent);
+  color: #fff !important;
+  padding: var(--sp-2) var(--sp-4);
+}
+.nav__link--cta:hover {
+  background: var(--clr-accent-hover);
+}
+
+/* Hamburger */
+.nav__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--sp-2);
+  border-radius: var(--radius-sm);
+}
+.nav__toggle span {
+  display: block;
+  height: 2px;
+  background: var(--clr-text);
+  border-radius: 2px;
+  transition: transform var(--transition), opacity var(--transition);
+}
+/* Animación hamburger → X */
+.nav__toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav__toggle.is-open span:nth-child(2) { opacity: 0; }
+.nav__toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+
+/* ─────────────────────────────────────────
+   5. HERO
+───────────────────────────────────────── */
+.hero {
+  padding-block: var(--sp-24) var(--sp-16);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--sp-12);
+}
+
+.hero__label {
+  font-family: var(--ff-mono);
+  font-size: var(--fs-sm);
+  color: var(--clr-accent);
+  margin-bottom: var(--sp-4);
+  letter-spacing: 0.04em;
+}
+
+.hero__heading {
+  font-size: clamp(var(--fs-3xl), 5vw, var(--fs-4xl));
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--sp-6);
+}
+.hero__heading em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--clr-accent);
+}
+
+.hero__sub {
+  font-size: var(--fs-lg);
+  color: var(--clr-text-muted);
+  max-width: 48ch;
+  margin-bottom: var(--sp-8);
+  line-height: 1.7;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+/* Avatar placeholder */
+.hero__photo {
+  width: 220px;
+  height: 220px;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  object-position: top center;
+  border: 3px solid var(--clr-border);
+  box-shadow: var(--shadow-lg);
+  flex-shrink: 0;
+}
+
+
+/* ─────────────────────────────────────────
+   6. SECCIONES (SHARED)
+───────────────────────────────────────── */
+.section {
+  padding-block: var(--sp-24);
+}
+
+.section__header {
+  margin-bottom: var(--sp-12);
+}
+
+.section__tag {
+  display: block;
+  font-family: var(--ff-mono);
+  font-size: var(--fs-xs);
+  color: var(--clr-accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: var(--sp-3);
+}
+
+.section__title {
+  font-size: clamp(var(--fs-2xl), 3vw, var(--fs-3xl));
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+
+/* ─────────────────────────────────────────
+   7. SOBRE MÍ
+───────────────────────────────────────── */
+.sobre-mi {
+  background: var(--clr-bg-alt);
+  border-block: 1px solid var(--clr-border);
+}
+
+.sobre-mi__grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--sp-16);
+  align-items: start;
+}
+
+.sobre-mi__bio p {
+  color: var(--clr-text-muted);
+  font-size: var(--fs-lg);
+  line-height: 1.75;
+}
+.sobre-mi__bio p + p {
+  margin-top: var(--sp-4);
+}
+.sobre-mi__bio strong {
+  color: var(--clr-text);
+}
+
+/* Meta list */
+.meta-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  background: var(--clr-bg);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.meta-list__item {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: var(--sp-2);
+  padding-block: var(--sp-3);
+  border-bottom: 1px solid var(--clr-border);
+  font-size: var(--fs-sm);
+}
+.meta-list__item:last-child { border-bottom: none; }
+
+.meta-list__item dt {
+  color: var(--clr-text-muted);
+  font-weight: 500;
+}
+.meta-list__item dd a {
+  color: var(--clr-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+.meta-list__item dd a:hover {
+  color: var(--clr-accent-hover);
+}
+
+
+/* ─────────────────────────────────────────
+   8. HABILIDADES
+───────────────────────────────────────── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-6);
+}
+
+.skill-card {
+  background: var(--clr-bg);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-6);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.skill-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.skill-card__category {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--clr-text-muted);
+  margin-bottom: var(--sp-4);
+  padding-bottom: var(--sp-3);
+  border-bottom: 2px solid var(--clr-accent);
+}
+
+.skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.skill-tag {
+  display: inline-block;
+  padding: var(--sp-1) var(--sp-3);
+  background: var(--clr-bg-alt);
+  border: 1px solid var(--clr-border);
+  border-radius: 100px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--clr-text);
+  transition: background var(--transition), border-color var(--transition),
+              color var(--transition);
+}
+.skill-tag:hover {
+  background: oklch(52% 0.18 255 / 0.08);
+  border-color: var(--clr-accent-light);
+  color: var(--clr-accent);
+}
+
+
+/* ─────────────────────────────────────────
+   9. PROYECTOS
+───────────────────────────────────────── */
+.proyectos {
+  background: var(--clr-bg-alt);
+  border-block: 1px solid var(--clr-border);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-6);
+}
+
+.project-card {
+  background: var(--clr-bg);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.project-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+.project-card__img-wrap {
+  aspect-ratio: 16 / 9;
+}
+
+.project-card__logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: var(--sp-6);
+  background: #fff;
+}
+
+.project-card__body {
+  padding: var(--sp-6);
+}
+
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+}
+
+.project-card__title {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  margin-bottom: var(--sp-2);
+}
+
+.project-card__desc {
+  font-size: var(--fs-sm);
+  color: var(--clr-text-muted);
+  line-height: 1.65;
+  margin-bottom: var(--sp-4);
+}
+
+.project-card__link {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--clr-accent);
+  transition: gap var(--transition), color var(--transition);
+  gap: var(--sp-1);
+}
+.project-card__link:hover {
+  color: var(--clr-accent-hover);
+  gap: var(--sp-2);
+}
+
+
+/* ─────────────────────────────────────────
+   10. FOOTER
+───────────────────────────────────────── */
+.footer {
+  background: var(--clr-bg-dark);
+  color: oklch(90% 0.012 240);
+  padding-block: var(--sp-24) var(--sp-12);
+}
+
+.footer__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-12);
+}
+
+.footer__contact {
+  max-width: 52ch;
+}
+
+.footer__title {
+  font-size: clamp(var(--fs-2xl), 3vw, var(--fs-3xl));
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-block: var(--sp-4) var(--sp-4);
+  color: #fff;
+}
+
+.footer__sub {
+  color: oklch(70% 0.015 240);
+  font-size: var(--fs-lg);
+  margin-bottom: var(--sp-8);
+}
+
+.footer__links {
+  display: flex;
+  gap: var(--sp-4);
+}
+
+.footer__social-link {
+  font-family: var(--ff-mono);
+  font-size: var(--fs-sm);
+  color: oklch(70% 0.015 240);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition);
+}
+.footer__social-link:hover {
+  color: var(--clr-accent-light);
+}
+
+.footer__copy {
+  font-size: var(--fs-sm);
+  color: oklch(45% 0.015 240);
+  border-top: 1px solid oklch(25% 0.015 255);
+  padding-top: var(--sp-6);
+}
+
+
+/* ─────────────────────────────────────────
+   11. RESPONSIVE
+───────────────────────────────────────── */
+
+/* Tablet (≤ 900px) */
+@media (max-width: 900px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sobre-mi__grid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-8);
+  }
+
+  .hero__inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero__sub { max-width: 100%; }
+
+  .hero__actions { justify-content: center; }
+
+  .avatar-placeholder {
+    margin-inline: auto;
+  }
+}
+
+/* Mobile (≤ 600px) */
+@media (max-width: 600px) {
+  :root {
+    --container-pad: var(--sp-4);
+  }
+
+  /* Nav mobile */
+  .nav__toggle {
+    display: flex;
+    z-index: 10;
+  }
+
+  .nav__logo-name { display: none; }
+
+  .nav__links {
+    display: none;
+    position: fixed;
+    inset: 64px 0 0 0;
+    flex-direction: column;
+    align-items: stretch;
+    background: var(--clr-bg);
+    border-top: 1px solid var(--clr-border);
+    padding: var(--sp-6);
+    gap: var(--sp-2);
+    z-index: 99;
+  }
+
+  .nav__links.is-open {
+    display: flex;
+  }
+
+  .nav__link {
+    display: block;
+    padding: var(--sp-4);
+    font-size: var(--fs-base);
+    text-align: center;
+    border-radius: var(--radius-md);
+  }
+
+  /* Hero mobile */
+  .hero {
+    padding-block: var(--sp-12) var(--sp-12);
+  }
+  .hero__heading { font-size: var(--fs-2xl); }
+
+  .hero__photo {
+    width: 140px;
+    height: 140px;
+    margin-inline: auto;
+  }
+
+  /* Grids → una columna */
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Secciones */
+  .section { padding-block: var(--sp-16); }
+
+  .meta-list__item {
+    grid-template-columns: 80px 1fr;
+  }
+}
+
+</style>
+</head>
+<body>
+
+  <!-- ╔══════════════════════════════════╗ -->
+  <!-- ║           HEADER / NAV           ║ -->
+  <!-- ╚══════════════════════════════════╝ -->
+  <header class="site-header" id="top">
+    <nav class="nav container" aria-label="Navegación principal">
+      <a href="#top" class="nav__logo">
+        <span class="nav__logo-initials">RC</span>
+        <span class="nav__logo-name">René Cruz</span>
+      </a>
+      <button class="nav__toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="navLinks" role="list">
+        <li><a href="#sobre-mi" class="nav__link">Sobre mí</a></li>
+        <li><a href="#habilidades" class="nav__link">Habilidades</a></li>
+        <li><a href="#proyectos" class="nav__link">Proyectos</a></li>
+        <li><a href="#contacto" class="nav__link nav__link--cta">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ╔══════════════════════════════════╗ -->
+    <!-- ║              HERO                ║ -->
+    <!-- ╚══════════════════════════════════╝ -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="container hero__inner">
+        <div class="hero__text">
+          <p class="hero__label">IA Practitioner · Software Architect · Product Manager</p>
+          <h1 class="hero__heading" id="hero-heading">
+            Hola, soy<br />
+            <em>René Cruz Flores</em>
+          </h1>
+          <p class="hero__sub">
+            Arquitecto de software con más de 15 años de experiencia diseñando
+            e implementando aplicaciones empresariales complejas en plataformas
+            web y móviles. Apasionado por las tecnologías emergentes y la IA.
+          </p>
+          <div class="hero__actions">
+            <a href="#proyectos" class="btn btn--primary">Ver proyectos</a>
+            <a href="#contacto" class="btn btn--ghost">Hablemos</a>
+          </div>
+        </div>
+        <div class="hero__avatar">
+          <img src="uploads/avatar-l.jpg" alt="René Cruz Flores" class="hero__photo" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ╔══════════════════════════════════╗ -->
+    <!-- ║            SOBRE MÍ              ║ -->
+    <!-- ╚══════════════════════════════════╝ -->
+    <section class="section sobre-mi" id="sobre-mi" aria-labelledby="sobre-heading">
+      <div class="container">
+        <header class="section__header">
+          <span class="section__tag">01 — Sobre mí</span>
+          <h2 class="section__title" id="sobre-heading">Quién soy</h2>
+        </header>
+        <div class="sobre-mi__grid">
+          <div class="sobre-mi__bio">
+            <p>
+              Arquitecto de software senior con más de 15 años de experiencia
+              diseñando, construyendo e implementando aplicaciones empresariales
+              complejas. Experto en liderar proyectos desde la concepción hasta
+              el lanzamiento, resolviendo problemas técnicos de alto nivel y
+              mentoreando equipos de desarrollo.
+            </p>
+            <p>
+              Actualmente Arquitecto de Software en <strong>ids comercial TI</strong>,
+              con experiencia previa como Product Manager en <strong>Kueski</strong>
+              liderando iniciativas de Identity &amp; Access Management con
+              tecnologías como Okta, Auth0 y Veriff.
+            </p>
+            <p>
+              Doctor en Ciencias de la Computación por la Universidad Autónoma
+              de Baja California. Exdirector del Campus Valle de Chalco de la
+              UAEM y fundador de dos empresas de desarrollo de software.
+            </p>
+          </div>
+          <aside class="sobre-mi__meta">
+            <dl class="meta-list">
+              <div class="meta-list__item">
+                <dt>Ubicación</dt>
+                <dd>Chalco, México</dd>
+              </div>
+              <div class="meta-list__item">
+                <dt>Email</dt>
+                <dd><a href="mailto:renecruzflores1@gmail.com">renecruzflores1@gmail.com</a></dd>
+              </div>
+              <div class="meta-list__item">
+                <dt>LinkedIn</dt>
+                <dd>
+                  <a href="https://www.linkedin.com/in/renecruzflores/" target="_blank" rel="noopener">
+                    /in/renecruzflores
+                  </a>
+                </dd>
+              </div>
+              <div class="meta-list__item">
+                <dt>Experiencia</dt>
+                <dd>+20 años</dd>
+              </div>
+              <div class="meta-list__item">
+                <dt>Idiomas</dt>
+                <dd>Español · Inglés</dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ╔══════════════════════════════════╗ -->
+    <!-- ║           HABILIDADES            ║ -->
+    <!-- ╚══════════════════════════════════╝ -->
+    <section class="section habilidades" id="habilidades" aria-labelledby="habilidades-heading">
+      <div class="container">
+        <header class="section__header">
+          <span class="section__tag">02 — Habilidades</span>
+          <h2 class="section__title" id="habilidades-heading">Stack técnico</h2>
+        </header>
+        <div class="skills-grid">
+
+          <article class="skill-card">
+            <h3 class="skill-card__category">Arquitectura &amp; Backend</h3>
+            <ul class="skill-list" role="list">
+              <li class="skill-tag">Java</li>
+              <li class="skill-tag">Spring Boot</li>
+              <li class="skill-tag">Kotlin</li>
+              <li class="skill-tag">REST APIs</li>
+              <li class="skill-tag">Microservicios</li>
+              <li class="skill-tag">SQL</li>
+            </ul>
+          </article>
+
+          <article class="skill-card">
+            <h3 class="skill-card__category">Mobile &amp; Cloud</h3>
+            <ul class="skill-list" role="list">
+              <li class="skill-tag">Android</li>
+              <li class="skill-tag">Kotlin</li>
+              <li class="skill-tag">AWS CloudTrail</li>
+              <li class="skill-tag">Elastic Search</li>
+              <li class="skill-tag">Kong API Gateway</li>
+              <li class="skill-tag">Datadog</li>
+            </ul>
+          </article>
+
+          <article class="skill-card">
+            <h3 class="skill-card__category">IAM &amp; Producto</h3>
+            <ul class="skill-list" role="list">
+              <li class="skill-tag">Okta</li>
+              <li class="skill-tag">Auth0</li>
+              <li class="skill-tag">Veriff</li>
+              <li class="skill-tag">Feature Flags</li>
+              <li class="skill-tag">LaunchDarkly</li>
+              <li class="skill-tag">Product Management</li>
+            </ul>
+          </article>
+
+          <article class="skill-card">
+            <h3 class="skill-card__category">IA &amp; Metodologías</h3>
+            <ul class="skill-list" role="list">
+              <li class="skill-tag">Inteligencia Artificial</li>
+              <li class="skill-tag">Prompt Engineering</li>
+              <li class="skill-tag">Scrum / Agile</li>
+              <li class="skill-tag">SOLID</li>
+              <li class="skill-tag">Clean Code</li>
+            </ul>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ╔══════════════════════════════════╗ -->
+    <!-- ║            PROYECTOS             ║ -->
+    <!-- ╚══════════════════════════════════╝ -->
+    <section class="section proyectos" id="proyectos" aria-labelledby="proyectos-heading">
+      <div class="container">
+        <header class="section__header">
+          <span class="section__tag">03 — Proyectos</span>
+          <h2 class="section__title" id="proyectos-heading">Trabajo reciente</h2>
+        </header>
+        <div class="projects-grid">
+
+          <article class="project-card">
+            <div class="project-card__img-wrap">
+              <img src="uploads/ids-logo.png" alt="ids comercial TI" class="project-card__logo" />
+            </div>
+            <div class="project-card__body">
+              <div class="project-card__tags">
+                <span class="tag">Java</span>
+                <span class="tag">Spring Boot</span>
+                <span class="tag">Arquitectura</span>
+              </div>
+              <h3 class="project-card__title">Arquitecto de Software — ids comercial TI</h3>
+              <p class="project-card__desc">
+                Diseño e implementación de soluciones empresariales complejas.
+                Definición de arquitectura, patrones de integración y guía
+                técnica del equipo de desarrollo.
+              </p>
+              <a href="https://www.linkedin.com/in/renecruzflores/" target="_blank" rel="noopener" class="project-card__link">
+                Ver perfil →
+              </a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-card__img-wrap">
+              <img src="uploads/kueski-logo.jpg" alt="Kueski" class="project-card__logo" />
+            </div>
+            <div class="project-card__body">
+              <div class="project-card__tags">
+                <span class="tag">Okta</span>
+                <span class="tag">Auth0</span>
+                <span class="tag">Elastic Search</span>
+              </div>
+              <h3 class="project-card__title">Identity &amp; Access Management — Kueski</h3>
+              <p class="project-card__desc">
+                Liderazgo de iniciativas de IAM integrando Okta, Auth0 y Veriff.
+                Desarrollo de un motor de búsqueda de productos con Elastic Search
+                embebido en sitio web y app móvil.
+              </p>
+              <a href="https://www.linkedin.com/in/renecruzflores/" target="_blank" rel="noopener" class="project-card__link">
+                Ver perfil →
+              </a>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-card__img-wrap">
+              <img src="uploads/logo-ditamex.jpg" alt="DITAMEX" class="project-card__logo" />
+            </div>
+            <div class="project-card__body">
+              <div class="project-card__tags">
+                <span class="tag">IoT</span>
+                <span class="tag">Gobierno</span>
+                <span class="tag">Mobile</span>
+              </div>
+              <h3 class="project-card__title">Sistemas de Inteligencia Policial — DITAMEX</h3>
+              <p class="project-card__desc">
+                Fundador y CEO. Desarrollo de sistemas para rastreo y monitoreo
+                de flotillas policiales, despacho de vehículos oficiales y
+                sistemas gubernamentales de búsqueda de IDs.
+              </p>
+              <a href="https://www.linkedin.com/in/renecruzflores/" target="_blank" rel="noopener" class="project-card__link">
+                Ver perfil →
+              </a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ╔══════════════════════════════════╗ -->
+  <!-- ║         FOOTER / CONTACTO        ║ -->
+  <!-- ╚══════════════════════════════════╝ -->
+  <footer class="footer" id="contacto">
+    <div class="container footer__inner">
+      <div class="footer__contact">
+        <span class="section__tag" style="color: var(--clr-accent-light);">04 — Contacto</span>
+        <h2 class="footer__title">¿Tienes un proyecto en mente?</h2>
+        <p class="footer__sub">
+          Estoy disponible para colaboraciones, freelance o posiciones
+          de tiempo completo. Escríbeme y hablemos.
+        </p>
+        <a href="mailto:renecruzflores1@gmail.com" class="btn btn--primary btn--lg">
+          Enviar mensaje
+        </a>
+      </div>
+      <div class="footer__links" aria-label="Redes sociales">
+        <a href="https://www.linkedin.com/in/renecruzflores/" target="_blank" rel="noopener" class="footer__social-link">
+          LinkedIn
+        </a>
+        <a href="https://github.com/" target="_blank" rel="noopener" class="footer__social-link">
+          GitHub
+        </a>
+      </div>
+      <p class="footer__copy">
+        <span class="mono">© 2026</span> René Cruz Flores.
+        Construido con HTML, CSS &amp; JS.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+/* ============================================
+   main.js — René Cruz Flores Portfolio
+   ============================================
+   Módulos:
+   1. Nav — hamburger + cierre al hacer clic en enlace
+   2. Header scroll — sombra al hacer scroll
+   3. Active nav link — resalta sección activa
+   4. Animación de entrada — reveal on scroll (IntersectionObserver)
+   5. Skill tags — efecto ripple al hacer clic
+============================================ */
+
+'use strict';
+
+/* ─────────────────────────────────────────
+   1. NAV — HAMBURGER MENU
+───────────────────────────────────────── */
+(function initNav() {
+  const toggle   = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  const links    = navLinks.querySelectorAll('.nav__link');
+
+  function openMenu() {
+    navLinks.classList.add('is-open');
+    toggle.classList.add('is-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Cerrar menú');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    navLinks.classList.remove('is-open');
+    toggle.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Abrir menú');
+    document.body.style.overflow = '';
+  }
+
+  toggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.contains('is-open');
+    isOpen ? closeMenu() : openMenu();
+  });
+
+  // Cierra el menú al hacer clic en cualquier enlace (mobile)
+  links.forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Cierra si el usuario hace clic fuera del nav
+  document.addEventListener('click', (e) => {
+    const header = document.querySelector('.site-header');
+    if (!header.contains(e.target)) closeMenu();
+  });
+})();
+
+
+/* ─────────────────────────────────────────
+   2. HEADER SCROLL — SOMBRA DINÁMICA
+───────────────────────────────────────── */
+(function initHeaderScroll() {
+  const header = document.querySelector('.site-header');
+
+  const onScroll = () => {
+    if (window.scrollY > 10) {
+      header.style.boxShadow = '0 2px 20px oklch(0% 0 0 / 0.08)';
+    } else {
+      header.style.boxShadow = 'none';
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
+
+
+/* ─────────────────────────────────────────
+   3. ACTIVE NAV LINK — RESALTA SECCIÓN ACTIVA
+───────────────────────────────────────── */
+(function initActiveNav() {
+  const sections = document.querySelectorAll('section[id], footer[id]');
+  const navLinks = document.querySelectorAll('.nav__link');
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '-30% 0px -60% 0px',
+    threshold: 0
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+
+      const activeId = entry.target.id;
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        link.classList.toggle(
+          'nav__link--active',
+          href === `#${activeId}`
+        );
+      });
+    });
+  }, observerOptions);
+
+  sections.forEach(section => observer.observe(section));
+})();
+
+
+/* ─────────────────────────────────────────
+   4. REVEAL ON SCROLL — ANIMACIÓN DE ENTRADA
+───────────────────────────────────────── */
+(function initRevealOnScroll() {
+  // Elementos que animaremos al entrar en viewport
+  const targets = document.querySelectorAll(
+    '.skill-card, .project-card, .sobre-mi__bio, .sobre-mi__meta'
+  );
+
+  // Estado inicial: invisible y desplazado hacia abajo
+  targets.forEach((el, i) => {
+    el.style.opacity    = '0';
+    el.style.transform  = 'translateY(24px)';
+    el.style.transition = `opacity 500ms ease ${i * 60}ms, transform 500ms ease ${i * 60}ms`;
+  });
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.style.opacity   = '1';
+      entry.target.style.transform = 'translateY(0)';
+      revealObserver.unobserve(entry.target); // anima solo una vez
+    });
+  }, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+  });
+
+  targets.forEach(el => revealObserver.observe(el));
+})();
+
+
+/* ─────────────────────────────────────────
+   5. SKILL TAGS — EFECTO RIPPLE AL CLIC
+───────────────────────────────────────── */
+(function initSkillTagRipple() {
+  const skillTags = document.querySelectorAll('.skill-tag');
+
+  skillTags.forEach(tag => {
+    tag.addEventListener('click', function (e) {
+      // Crea el elemento ripple
+      const ripple = document.createElement('span');
+      ripple.style.cssText = `
+        position: absolute;
+        border-radius: 50%;
+        background: oklch(52% 0.18 255 / 0.25);
+        transform: scale(0);
+        animation: ripple-anim 500ms linear;
+        pointer-events: none;
+        width: 80px;
+        height: 80px;
+        left: ${e.offsetX - 40}px;
+        top:  ${e.offsetY - 40}px;
+      `;
+
+      // El padre necesita position: relative para que el ripple se posicione bien
+      this.style.position = 'relative';
+      this.style.overflow = 'hidden';
+      this.appendChild(ripple);
+
+      ripple.addEventListener('animationend', () => ripple.remove());
+    });
+  });
+
+  // Inyectamos el keyframe de ripple al documento
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes ripple-anim {
+      to { transform: scale(3); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+})();
+
+
+/* ─────────────────────────────────────────
+   INIT LOG
+───────────────────────────────────────── */
+console.log('%c⚡ René Cruz Flores — Portfolio cargado correctamente', [
+  'color: oklch(52% 0.18 255)',
+  'font-family: monospace',
+  'font-size: 13px',
+  'padding: 4px'
+].join(';'));
+
+</script>
+  <script>
+/* ============================================
+   TWEAKS
+============================================ */
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accentColor": "oklch(52% 0.18 255)",
+  "fontSize": 16,
+  "darkMode": false,
+  "avatarRadius": 16
+}/*EDITMODE-END*/;
+
+(function initTweaks() {
+  function applyTweaks(t) {
+    document.documentElement.style.setProperty('--clr-accent', t.accentColor);
+    document.documentElement.style.setProperty('--clr-accent-hover', t.accentColor.replace('52%','44%'));
+    document.documentElement.style.setProperty('--clr-accent-light', t.accentColor.replace('52%','72%'));
+    document.documentElement.style.fontSize = t.fontSize + 'px';
+    document.documentElement.style.setProperty('--radius-lg', t.avatarRadius + 'px');
+    if (t.darkMode) {
+      document.documentElement.style.setProperty('--clr-bg','oklch(12% 0.015 255)');
+      document.documentElement.style.setProperty('--clr-bg-alt','oklch(16% 0.015 255)');
+      document.documentElement.style.setProperty('--clr-text','oklch(92% 0.010 240)');
+      document.documentElement.style.setProperty('--clr-text-muted','oklch(65% 0.015 240)');
+      document.documentElement.style.setProperty('--clr-border','oklch(28% 0.018 255)');
+    } else {
+      document.documentElement.style.setProperty('--clr-bg','oklch(97% 0.008 240)');
+      document.documentElement.style.setProperty('--clr-bg-alt','oklch(94% 0.010 240)');
+      document.documentElement.style.setProperty('--clr-text','oklch(18% 0.015 255)');
+      document.documentElement.style.setProperty('--clr-text-muted','oklch(48% 0.020 255)');
+      document.documentElement.style.setProperty('--clr-border','oklch(87% 0.012 240)');
+    }
+  }
+
+  function buildPanel() {
+    const panel = document.createElement('div');
+    panel.id = 'tweaks-panel';
+    panel.innerHTML = `
+      <div class="twk-header">
+        <span class="twk-title">Tweaks</span>
+        <button class="twk-close" id="twkClose">✕</button>
+      </div>
+      <label class="twk-label">Color de acento
+        <div class="twk-swatches">
+          <button class="twk-swatch" style="background:oklch(52% 0.18 255)" data-color="oklch(52% 0.18 255)" title="Azul"></button>
+          <button class="twk-swatch" style="background:oklch(52% 0.18 145)" data-color="oklch(52% 0.18 145)" title="Verde"></button>
+          <button class="twk-swatch" style="background:oklch(52% 0.18 30)"  data-color="oklch(52% 0.18 30)"  title="Naranja"></button>
+          <button class="twk-swatch" style="background:oklch(52% 0.18 320)" data-color="oklch(52% 0.18 320)" title="Rosa"></button>
+          <button class="twk-swatch" style="background:oklch(52% 0.18 200)" data-color="oklch(52% 0.18 200)" title="Cian"></button>
+        </div>
+      </label>
+      <label class="twk-label">Tamaño de texto
+        <div class="twk-row">
+          <input type="range" id="twkFontSize" min="14" max="20" step="1" value="${TWEAK_DEFAULTS.fontSize}" />
+          <span id="twkFontVal">${TWEAK_DEFAULTS.fontSize}px</span>
+        </div>
+      </label>
+      <label class="twk-label">Radio de esquinas
+        <div class="twk-row">
+          <input type="range" id="twkRadius" min="0" max="48" step="4" value="${TWEAK_DEFAULTS.avatarRadius}" />
+          <span id="twkRadiusVal">${TWEAK_DEFAULTS.avatarRadius}px</span>
+        </div>
+      </label>
+      <label class="twk-label twk-toggle-label">
+        <span>Modo oscuro</span>
+        <label class="twk-switch">
+          <input type="checkbox" id="twkDark" ${TWEAK_DEFAULTS.darkMode ? 'checked' : ''} />
+          <span class="twk-slider-knob"></span>
+        </label>
+      </label>
+    `;
+    document.body.appendChild(panel);
+
+    const state = Object.assign({}, TWEAK_DEFAULTS);
+
+    panel.querySelectorAll('.twk-swatch').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.accentColor = btn.dataset.color;
+        applyTweaks(state);
+        persist(state);
+      });
+    });
+
+    const fsSlider = panel.querySelector('#twkFontSize');
+    const fsVal    = panel.querySelector('#twkFontVal');
+    fsSlider.addEventListener('input', () => {
+      state.fontSize = +fsSlider.value;
+      fsVal.textContent = state.fontSize + 'px';
+      applyTweaks(state);
+      persist(state);
+    });
+
+    const rSlider = panel.querySelector('#twkRadius');
+    const rVal    = panel.querySelector('#twkRadiusVal');
+    rSlider.addEventListener('input', () => {
+      state.avatarRadius = +rSlider.value;
+      rVal.textContent = state.avatarRadius + 'px';
+      applyTweaks(state);
+      persist(state);
+    });
+
+    panel.querySelector('#twkDark').addEventListener('change', (e) => {
+      state.darkMode = e.target.checked;
+      applyTweaks(state);
+      persist(state);
+    });
+
+    panel.querySelector('#twkClose').addEventListener('click', hidePanel);
+    applyTweaks(state);
+    return panel;
+  }
+
+  function persist(s) {
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: s }, '*');
+  }
+
+  const style = document.createElement('style');
+  style.textContent = `
+    #tweaks-panel {
+      display:none; position:fixed; bottom:24px; right:24px; z-index:9999;
+      width:260px; background:oklch(16% 0.015 255); color:oklch(90% 0.010 240);
+      border-radius:14px; padding:16px; flex-direction:column; gap:14px;
+      box-shadow:0 8px 40px oklch(0% 0 0 / 0.5);
+      font-family:'DM Sans',sans-serif; font-size:13px;
+    }
+    .twk-header{display:flex;justify-content:space-between;align-items:center}
+    .twk-title{font-weight:600;font-size:14px;letter-spacing:.04em}
+    .twk-close{background:none;border:none;color:oklch(60% 0.01 240);cursor:pointer;font-size:16px;padding:2px 6px;border-radius:6px}
+    .twk-close:hover{color:#fff;background:oklch(30% 0.02 255)}
+    .twk-label{display:flex;flex-direction:column;gap:8px;color:oklch(70% 0.012 240);font-size:12px;font-weight:500}
+    .twk-toggle-label{flex-direction:row;justify-content:space-between;align-items:center}
+    .twk-row{display:flex;align-items:center;gap:8px}
+    .twk-row input[type=range]{flex:1;accent-color:oklch(52% 0.18 255)}
+    .twk-row span{font-family:'DM Mono',monospace;font-size:11px;min-width:34px;color:#fff}
+    .twk-swatches{display:flex;gap:8px}
+    .twk-swatch{width:28px;height:28px;border-radius:50%;border:2px solid oklch(30% 0.02 255);cursor:pointer;transition:transform 150ms,border-color 150ms}
+    .twk-swatch:hover{transform:scale(1.15);border-color:#fff}
+    .twk-switch{position:relative;display:inline-block;width:40px;height:22px}
+    .twk-switch input{opacity:0;width:0;height:0}
+    .twk-slider-knob{position:absolute;inset:0;background:oklch(30% 0.02 255);border-radius:22px;transition:200ms;cursor:pointer}
+    .twk-slider-knob::before{content:'';position:absolute;width:16px;height:16px;left:3px;bottom:3px;background:white;border-radius:50%;transition:200ms}
+    .twk-switch input:checked + .twk-slider-knob{background:oklch(52% 0.18 255)}
+    .twk-switch input:checked + .twk-slider-knob::before{transform:translateX(18px)}
+  `;
+  document.head.appendChild(style);
+
+  let panel = null;
+  function showPanel(){ if(!panel) panel = buildPanel(); panel.style.display = 'flex'; }
+  function hidePanel(){ if(panel) panel.style.display = 'none'; }
+
+  window.addEventListener('message', (e) => {
+    if(e.data && e.data.type === '__activate_edit_mode')   showPanel();
+    if(e.data && e.data.type === '__deactivate_edit_mode') hidePanel();
+  });
+
+  window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+})();
+</script>
+
+</body>
+</html>
