@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="DevBlog IDS — Artículos sobre fundamentos del desarrollo web: HTML, CSS, JavaScript, Git y Terminal."/>
+  <title>DevBlog IDS — Fundamentos del Desarrollo Web</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+  <!-- ══════════════ HEADER ══════════════ -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+
+        <a href="index.html" class="site-logo">
+          <span class="logo-name">Dev<em>Blog</em></span>
+          <span class="logo-tagline">Academia IDS</span>
+        </a>
+
+        <nav class="site-nav" id="site-nav" aria-label="Navegación principal">
+          <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="articulos.html">Artículos</a></li>
+            <li><a href="article.html">Leer: HTML semántico</a></li>
+            <li><a href="acerca.html">Acerca de</a></li>
+          </ul>
+          <button class="btn-theme" id="btn-theme" aria-label="Cambiar tema">
+            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg class="icon-sun"  xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </button>
+        </nav>
+
+        <button class="btn-menu" id="btn-menu" aria-label="Abrir menú" aria-expanded="false">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ══════════════ HERO ══════════════ -->
+    <section class="hero">
+      <div class="container">
+        <p class="hero-eyebrow fade-up">Fundamentos · Desarrollo Web Profesional</p>
+        <h1 class="hero-title fade-up fade-up-1">
+          Aprende a construir<br><em>la web del futuro</em>
+        </h1>
+        <p class="hero-lead fade-up fade-up-2">
+          Artículos prácticos sobre HTML, CSS, JavaScript, Git y Terminal.
+          Escritos para becarios que quieren convertirse en desarrolladores profesionales.
+        </p>
+        <div class="hero-actions fade-up fade-up-3">
+          <a href="articulos.html" class="btn btn-filled">Ver todos los artículos →</a>
+          <a href="acerca.html"    class="btn btn-outline">Acerca del blog</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ ARTÍCULOS DESTACADOS ══════════════ -->
+    <section class="posts-section">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">Artículos recientes</h2>
+          <a href="articulos.html" class="section-link">Ver todos →</a>
+        </div>
+
+        <div class="posts-grid">
+
+          <!-- Artículo destacado -->
+          <article class="post-card featured"
+                   data-title="HTML semántico: el esqueleto que nadie ve"
+                   data-category="HTML"
+                   data-excerpt="Descubre por qué el HTML semántico es la base invisible de todo gran sitio web.">
+            <div class="post-img">
+              <div class="post-img-placeholder gradient-html" data-label="HTML"></div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta">
+                <span class="tag">HTML</span>
+                <span class="post-date">15 Apr 2025</span>
+              </div>
+              <a href="article.html" class="post-title">
+                HTML semántico: el esqueleto que nadie ve pero todos necesitan
+              </a>
+              <p class="post-excerpt">
+                Aprende por qué usar las etiquetas correctas no es solo una buena práctica,
+                sino la base de la accesibilidad, el SEO y el mantenimiento a largo plazo.
+                Exploramos cada elemento semántico con ejemplos reales.
+              </p>
+              <div class="post-footer">
+                <span class="post-read-time">⏱ 8 min de lectura</span>
+                <a href="article.html" class="read-more">Leer artículo →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Artículo secundario 1 -->
+          <article class="post-card secondary"
+                   data-title="CSS Grid: diseña layouts como profesional"
+                   data-category="CSS"
+                   data-excerpt="Domina el sistema de layout bidimensional más poderoso del CSS moderno.">
+            <div class="post-img">
+              <div class="post-img-placeholder gradient-css" data-label="CSS"></div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta">
+                <span class="tag">CSS</span>
+                <span class="post-date">10 Apr 2025</span>
+              </div>
+              <a href="articulos.html" class="post-title">
+                CSS Grid: diseña layouts como un profesional
+              </a>
+              <p class="post-excerpt">
+                De filas y columnas a áreas con nombre. Guía práctica de CSS Grid con
+                los 10 patrones que más usarás en proyectos reales.
+              </p>
+              <div class="post-footer">
+                <span class="post-read-time">⏱ 6 min</span>
+                <a href="articulos.html" class="read-more">Leer →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Artículo fila 1 -->
+          <article class="post-card row-card"
+                   data-title="Git en 10 comandos: el flujo que sí usarás"
+                   data-category="Git"
+                   data-excerpt="Los 10 comandos Git que todo desarrollador usa día a día.">
+            <div class="post-img">
+              <div class="post-img-placeholder gradient-git" data-label="Git"></div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta">
+                <span class="tag">Git</span>
+                <span class="post-date">5 Apr 2025</span>
+              </div>
+              <a href="articulos.html" class="post-title">
+                Git en 10 comandos: el flujo que sí usarás día a día
+              </a>
+              <p class="post-excerpt">
+                Olvida la lista interminable. Estos 10 comandos cubren el 90% de tu
+                trabajo diario con Git y GitHub.
+              </p>
+              <div class="post-footer">
+                <span class="post-read-time">⏱ 5 min</span>
+                <a href="articulos.html" class="read-more">Leer →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Artículo fila 2 -->
+          <article class="post-card row-card"
+                   data-title="JavaScript: variables, funciones y el DOM"
+                   data-category="JavaScript"
+                   data-excerpt="Entiende los tres pilares de JavaScript antes de seguir adelante.">
+            <div class="post-img">
+              <div class="post-img-placeholder gradient-js" data-label="JS"></div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta">
+                <span class="tag">JavaScript</span>
+                <span class="post-date">1 Apr 2025</span>
+              </div>
+              <a href="articulos.html" class="post-title">
+                JavaScript: variables, funciones y el DOM explicados sin rodeos
+              </a>
+              <p class="post-excerpt">
+                La trinidad que debes dominar antes de seguir: cómo funciona la memoria,
+                qué son las funciones de primera clase y cómo manipular el DOM.
+              </p>
+              <div class="post-footer">
+                <span class="post-read-time">⏱ 7 min</span>
+                <a href="articulos.html" class="read-more">Leer →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Artículo fila 3 -->
+          <article class="post-card row-card"
+                   data-title="La terminal: tu nueva mejor amiga"
+                   data-category="Terminal"
+                   data-excerpt="Domina los comandos básicos de la terminal y trabaja como un pro.">
+            <div class="post-img">
+              <div class="post-img-placeholder gradient-term" data-label="$_"></div>
+            </div>
+            <div class="post-body">
+              <div class="post-meta">
+                <span class="tag">Terminal</span>
+                <span class="post-date">28 Mar 2025</span>
+              </div>
+              <a href="articulos.html" class="post-title">
+                La terminal: tu nueva mejor amiga como desarrollador
+              </a>
+              <p class="post-excerpt">
+                Deja de temerle a la pantalla negra. Navega, crea, elimina y organiza
+                archivos con comandos que se convertirán en reflejos.
+              </p>
+              <div class="post-footer">
+                <span class="post-read-time">⏱ 5 min</span>
+                <a href="articulos.html" class="read-more">Leer →</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+
+        <div>
+          <a href="index.html" class="site-logo">
+            <span class="logo-name">Dev<em>Blog</em></span>
+          </a>
+          <p class="footer-desc">
+            Blog de aprendizaje para la ruta Fundamentos del Desarrollo
+            Web Profesional. Contenido pensado para becarios y
+            desarrolladores que están comenzando su camino.
+          </p>
+        </div>
+
+        <div>
+          <p class="footer-heading">Navegación</p>
+          <ul class="footer-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="articulos.html">Artículos</a></li>
+            <li><a href="article.html">HTML semántico</a></li>
+            <li><a href="acerca.html">Acerca de</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer-heading">Categorías</p>
+          <ul class="footer-links">
+            <li><a href="articulos.html">HTML</a></li>
+            <li><a href="articulos.html">CSS</a></li>
+            <li><a href="articulos.html">JavaScript</a></li>
+            <li><a href="articulos.html">Git & GitHub</a></li>
+            <li><a href="articulos.html">Terminal</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2025 DevBlog · Todos los derechos reservados</p>
+        <p class="footer-ids">Academia IDS</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Aprende por qué el HTML semántico es la base invisible de todo gran sitio web: accesibilidad, SEO y mantenimiento."/>
+  <title>HTML semántico — DevBlog IDS</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+  <!-- ══════════════ HEADER ══════════════ -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+
+        <a href="index.html" class="site-logo">
+          <span class="logo-name">Dev<em>Blog</em></span>
+          <span class="logo-tagline">Academia IDS</span>
+        </a>
+
+        <nav class="site-nav" id="site-nav" aria-label="Navegación principal">
+          <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="articulos.html">Artículos</a></li>
+            <li><a href="article.html">Leer: HTML semántico</a></li>
+            <li><a href="acerca.html">Acerca de</a></li>
+          </ul>
+          <button class="btn-theme" id="btn-theme" aria-label="Cambiar tema">
+            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg class="icon-sun"  xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </button>
+        </nav>
+
+        <button class="btn-menu" id="btn-menu" aria-label="Abrir menú" aria-expanded="false">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ══════════════ ARTICLE HERO ══════════════ -->
+    <section class="article-hero">
+      <div class="container">
+        <div class="article-hero-meta fade-up">
+          <span class="tag">HTML</span>
+          <span class="article-date">15 de abril, 2025</span>
+          <span class="article-date">⏱ 8 min de lectura</span>
+        </div>
+        <h1 class="article-title fade-up fade-up-1">
+          HTML semántico: el esqueleto<br>que nadie ve pero
+          <em>todos necesitan</em>
+        </h1>
+        <p class="article-lead fade-up fade-up-2">
+          Aprender a escribir HTML correcto no es solo saber las etiquetas —
+          es entender el significado que le das a cada parte de tu página.
+          En este artículo exploramos el HTML semántico desde cero.
+        </p>
+
+        <div class="article-cover fade-up fade-up-3">
+          <div class="article-cover-placeholder gradient-html">HTML</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ CONTENIDO + SIDEBAR ══════════════ -->
+    <div class="container">
+      <div class="article-layout">
+
+        <!-- Contenido principal -->
+        <article class="article-content">
+
+          <h2 id="intro">¿Qué es el HTML semántico?</h2>
+
+          <p>
+            Cuando empezamos a aprender HTML, la tentación es usar <code>&lt;div&gt;</code>
+            para todo. Y funciona… visualmente. Pero HTML no es solo diseño: es
+            <strong>lenguaje de marcado</strong>, y cada etiqueta tiene un significado.
+            Ese significado es lo que llamamos <em>semántica</em>.
+          </p>
+
+          <p>
+            El HTML semántico consiste en elegir la etiqueta que mejor describe
+            el contenido que contiene, no la que se ve mejor por defecto.
+          </p>
+
+          <blockquote>
+            "Un documento bien estructurado con HTML semántico le dice al navegador,
+            a los lectores de pantalla y a los motores de búsqueda qué es cada cosa,
+            no solo dónde está."
+            <cite>— MDN Web Docs, Introducción a HTML</cite>
+          </blockquote>
+
+          <h2 id="por-que">¿Por qué importa la semántica?</h2>
+
+          <p>Usar HTML semántico tiene tres beneficios principales que van mucho más
+          allá de "el código se ve más ordenado":</p>
+
+          <ol>
+            <li>
+              <strong>Accesibilidad:</strong> Los lectores de pantalla usan las etiquetas
+              semánticas para navegar. Un <code>&lt;nav&gt;</code> les indica que ahí
+              está la navegación; un <code>&lt;main&gt;</code>, el contenido principal.
+            </li>
+            <li>
+              <strong>SEO:</strong> Google y otros buscadores analizan la estructura
+              semántica para entender de qué trata tu página. Un <code>&lt;h1&gt;</code>
+              tiene más peso que un <code>&lt;div class="titulo"&gt;</code>.
+            </li>
+            <li>
+              <strong>Mantenibilidad:</strong> Un equipo de desarrolladores puede
+              entender la estructura de una página más rápido si el HTML es semántico.
+              El código se documenta a sí mismo.
+            </li>
+          </ol>
+
+          <h2 id="estructura">Estructura semántica básica de una página</h2>
+
+          <p>
+            Toda página web tiene áreas bien definidas. HTML5 introdujo etiquetas
+            específicas para cada una. Compara estos dos ejemplos:
+          </p>
+
+          <div class="code-block">
+            <span class="code-label">HTML — Sin semántica ❌</span>
+            <pre><code>&lt;div id="header"&gt;
+  &lt;div id="nav"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="main"&gt;
+  &lt;div class="article"&gt;...&lt;/div&gt;
+  &lt;div id="sidebar"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="footer"&gt;...&lt;/div&gt;</code></pre>
+          </div>
+
+          <div class="code-block">
+            <span class="code-label">HTML — Con semántica ✅</span>
+            <pre><code>&lt;header&gt;
+  &lt;nav&gt;...&lt;/nav&gt;
+&lt;/header&gt;
+&lt;main&gt;
+  &lt;article&gt;...&lt;/article&gt;
+  &lt;aside&gt;...&lt;/aside&gt;
+&lt;/main&gt;
+&lt;footer&gt;...&lt;/footer&gt;</code></pre>
+          </div>
+
+          <p>
+            El resultado visual puede ser idéntico, pero el segundo ejemplo transmite
+            significado: un navegador, un robot y un lector de pantalla entienden
+            exactamente qué hay en cada sección.
+          </p>
+
+          <h2 id="etiquetas">Las etiquetas semánticas más importantes</h2>
+
+          <p>
+            Estas son las etiquetas semánticas de HTML5 que debes conocer y usar
+            en cada proyecto:
+          </p>
+
+          <ul>
+            <li>
+              <code>&lt;header&gt;</code> — Encabezado de la página o de una sección.
+              Suele contener el logo, el título y la navegación principal.
+            </li>
+            <li>
+              <code>&lt;nav&gt;</code> — Bloque de enlaces de navegación. Solo se usa para
+              conjuntos de enlaces importantes (menú principal, paginación, breadcrumbs).
+            </li>
+            <li>
+              <code>&lt;main&gt;</code> — Contenido principal y único de la página.
+              Solo debe haber un <code>&lt;main&gt;</code> por documento.
+            </li>
+            <li>
+              <code>&lt;article&gt;</code> — Contenido independiente y auto-contenido:
+              un post de blog, una noticia, un comentario, un widget.
+            </li>
+            <li>
+              <code>&lt;section&gt;</code> — Agrupación temática de contenido con su propio
+              encabezado. No es un reemplazo de <code>&lt;div&gt;</code>.
+            </li>
+            <li>
+              <code>&lt;aside&gt;</code> — Contenido relacionado pero separado del flujo
+              principal: sidebar, anuncios, notas al margen.
+            </li>
+            <li>
+              <code>&lt;footer&gt;</code> — Pie de página o de sección. Contiene metadatos,
+              derechos de autor, enlaces secundarios.
+            </li>
+            <li>
+              <code>&lt;figure&gt;</code> y <code>&lt;figcaption&gt;</code> — Para imágenes,
+              diagramas o bloques de código con su descripción.
+            </li>
+            <li>
+              <code>&lt;time&gt;</code> — Para fechas y horas legibles por máquinas.
+              Usa el atributo <code>datetime</code> para el valor formal.
+            </li>
+            <li>
+              <code>&lt;mark&gt;</code> — Texto resaltado por relevancia en un contexto,
+              como resultados de búsqueda.
+            </li>
+          </ul>
+
+          <h2 id="encabezados">La jerarquía de encabezados</h2>
+
+          <p>
+            Los encabezados <code>&lt;h1&gt;</code> al <code>&lt;h6&gt;</code> forman una
+            estructura de árbol. Usa <code>&lt;h1&gt;</code> para el título principal de la
+            página (solo uno), <code>&lt;h2&gt;</code> para las secciones principales,
+            <code>&lt;h3&gt;</code> para subsecciones, y así sucesivamente.
+          </p>
+
+          <figure>
+            <div style="background:var(--color-code-bg); padding:1.5rem; font-family:var(--font-mono); font-size:.85rem; color:var(--color-code-text); line-height:2; border-radius:8px 8px 0 0;">
+              &lt;h1&gt; Título principal de la página (uno solo)<br>
+              &nbsp;&nbsp;&lt;h2&gt; Sección principal<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt; Subsección<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h4&gt; Sub-subsección (raro en blogs)<br>
+              &nbsp;&nbsp;&lt;h2&gt; Otra sección principal<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt; Su subsección
+            </div>
+            <figcaption>Árbol de jerarquía de encabezados en un documento HTML típico</figcaption>
+          </figure>
+
+          <h2 id="practica">Ejemplo práctico completo</h2>
+
+          <p>
+            Veamos cómo estructurar un artículo de blog usando HTML semántico correcto:
+          </p>
+
+          <div class="code-block">
+            <span class="code-label">HTML</span>
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Mi primer artículo&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;header&gt;
+    &lt;a href="/" aria-label="Ir al inicio"&gt;
+      &lt;img src="logo.svg" alt="Logo del blog"&gt;
+    &lt;/a&gt;
+    &lt;nav aria-label="Navegación principal"&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href="/articulos"&gt;Artículos&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href="/acerca"&gt;Acerca de&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;main&gt;
+    &lt;article&gt;
+      &lt;header&gt;
+        &lt;h1&gt;HTML semántico explicado&lt;/h1&gt;
+        &lt;p&gt;Por &lt;address&gt;Ana Martínez&lt;/address&gt;&lt;/p&gt;
+        &lt;time datetime="2025-04-15"&gt;15 de abril, 2025&lt;/time&gt;
+      &lt;/header&gt;
+
+      &lt;p&gt;Contenido del artículo...&lt;/p&gt;
+
+      &lt;figure&gt;
+        &lt;img src="diagrama.png" alt="Diagrama de estructura HTML semántica"&gt;
+        &lt;figcaption&gt;Estructura semántica de una página web&lt;/figcaption&gt;
+      &lt;/figure&gt;
+
+      &lt;footer&gt;
+        &lt;p&gt;Etiquetas: &lt;a href="/tags/html"&gt;HTML&lt;/a&gt;&lt;/p&gt;
+      &lt;/footer&gt;
+    &lt;/article&gt;
+
+    &lt;aside aria-label="Artículos relacionados"&gt;
+      &lt;h2&gt;También te puede interesar&lt;/h2&gt;
+      &lt;!-- Lista de artículos relacionados --&gt;
+    &lt;/aside&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;
+    &lt;p&gt;&lt;small&gt;© 2025 DevBlog IDS&lt;/small&gt;&lt;/p&gt;
+  &lt;/footer&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+
+          <h2 id="consejos">Consejos finales</h2>
+
+          <ul>
+            <li>
+              <strong>Siempre usa <code>lang</code> en <code>&lt;html&gt;</code>.</strong>
+              Indica el idioma del documento a los lectores de pantalla y traductores.
+            </li>
+            <li>
+              <strong>No saltes niveles de encabezados.</strong>
+              De <code>&lt;h1&gt;</code> a <code>&lt;h3&gt;</code> sin un <code>&lt;h2&gt;</code>
+              es un error de accesibilidad.
+            </li>
+            <li>
+              <strong>Agrega <code>aria-label</code> a elementos repetidos.</strong>
+              Si tienes varios <code>&lt;nav&gt;</code>, diferéncialos con etiquetas
+              descriptivas.
+            </li>
+            <li>
+              <strong>El <code>alt</code> en imágenes no es opcional.</strong>
+              Si la imagen es decorativa, usa <code>alt=""</code> vacío. Si comunica
+              información, descríbela con precisión.
+            </li>
+            <li>
+              <strong>Valida tu HTML.</strong> Usa el
+              <a href="https://validator.w3.org" target="_blank" rel="noopener">
+                W3C Validator
+              </a>
+              para verificar que tu documento no tiene errores semánticos.
+            </li>
+          </ul>
+
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="article-sidebar" aria-label="Tabla de contenido">
+
+          <div class="sidebar-card">
+            <p class="sidebar-title">En este artículo</p>
+            <nav aria-label="Índice del artículo">
+              <ul class="toc-list">
+                <li><a href="#intro">¿Qué es el HTML semántico?</a></li>
+                <li><a href="#por-que">¿Por qué importa?</a></li>
+                <li><a href="#estructura">Estructura básica</a></li>
+                <li><a href="#etiquetas">Etiquetas importantes</a></li>
+                <li><a href="#encabezados">Jerarquía de encabezados</a></li>
+                <li><a href="#practica">Ejemplo práctico</a></li>
+                <li><a href="#consejos">Consejos finales</a></li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="sidebar-card">
+            <p class="sidebar-title">Categoría</p>
+            <span class="tag">HTML</span>
+          </div>
+
+          <div class="sidebar-card">
+            <p class="sidebar-title">Más artículos</p>
+            <ul class="toc-list">
+              <li><a href="articulos.html">CSS Grid: layouts pro</a></li>
+              <li><a href="articulos.html">Git en 10 comandos</a></li>
+              <li><a href="articulos.html">JS: variables y DOM</a></li>
+              <li><a href="articulos.html">La terminal explicada</a></li>
+            </ul>
+          </div>
+
+        </aside>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <a href="index.html" class="site-logo">
+            <span class="logo-name">Dev<em>Blog</em></span>
+          </a>
+          <p class="footer-desc">
+            Blog de aprendizaje para la ruta Fundamentos del Desarrollo Web Profesional.
+            Contenido pensado para becarios en formación.
+          </p>
+        </div>
+        <div>
+          <p class="footer-heading">Navegación</p>
+          <ul class="footer-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="articulos.html">Artículos</a></li>
+            <li><a href="article.html">HTML semántico</a></li>
+            <li><a href="acerca.html">Acerca de</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-heading">Categorías</p>
+          <ul class="footer-links">
+            <li><a href="articulos.html">HTML</a></li>
+            <li><a href="articulos.html">CSS</a></li>
+            <li><a href="articulos.html">JavaScript</a></li>
+            <li><a href="articulos.html">Git & GitHub</a></li>
+            <li><a href="articulos.html">Terminal</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2025 DevBlog · Todos los derechos reservados</p>
+        <p class="footer-ids">Academia IDS</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
