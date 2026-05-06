@@ -181,7 +181,7 @@ function buildHome() {
       <div class="hero-stats">
         <div><div class="stat-number">3</div><div class="stat-label">MVPs encadenados</div></div>
         <div><div class="stat-number">17</div><div class="stat-label">semanas · Fases 0-4</div></div>
-        <div><div class="stat-number">~2,400</div><div class="stat-label">horas-persona estimadas</div></div>
+        <div><div class="stat-number">2 IA Tools</div><div class="stat-label">Claude Code y Github Copilot</div></div>
         <div><div class="stat-number">5+</div><div class="stat-label">equipos en escalado</div></div>
       </div>
     </div>
