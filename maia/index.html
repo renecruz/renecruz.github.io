@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAIA — Modular AI for Innovation &amp; Acceleration</title>
+  <meta name="description" content="Iniciativa corporativa de Inteligencia Artificial modular — IDS 2026">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Mobile topbar -->
+  <header class="topbar" id="topbar">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="topbar-brand">
+      <span class="topbar-ids">IDS</span>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-maia">MAIA</span>
+    </div>
+  </header>
+
+  <!-- Overlay for mobile sidebar -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="logo-row">
+          <span class="logo-ids">IDS</span>
+          <span class="logo-maia">MAIA</span>
+        </div>
+        <div class="sidebar-tagline">Modular AI for<br>Innovation &amp; Acceleration</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav">
+      <div class="nav-group">
+        <a href="#/" class="nav-item" data-doc="home">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+          Inicio
+        </a>
+      </div>
+
+      <div class="nav-group-label">Iniciativa</div>
+      <div class="nav-group">
+        <a href="#/doc01" class="nav-item" data-doc="doc01">
+          <span class="nav-num">01</span>Visión &amp; Alcance
+        </a>
+        <a href="#/doc02" class="nav-item" data-doc="doc02">
+          <span class="nav-num">02</span>Estructura
+        </a>
+        <a href="#/doc03" class="nav-item" data-doc="doc03">
+          <span class="nav-num">03</span>Roadmap Visual
+        </a>
+      </div>
+
+      <div class="nav-group-label">MVPs</div>
+      <div class="nav-group">
+        <a href="#/doc04" class="nav-item" data-doc="doc04">
+          <span class="nav-num mvp">M1</span>Proceso Estándar
+        </a>
+        <a href="#/doc05" class="nav-item" data-doc="doc05">
+          <span class="nav-num mvp">M2</span>Célula Integrada
+        </a>
+        <a href="#/doc06" class="nav-item" data-doc="doc06">
+          <span class="nav-num mvp">M3</span>Inteligencia
+        </a>
+      </div>
+
+      <div class="nav-group-label">Gestión</div>
+      <div class="nav-group">
+        <a href="#/doc07" class="nav-item" data-doc="doc07">
+          <span class="nav-num">07</span>Estrategia
+        </a>
+        <a href="#/doc08" class="nav-item" data-doc="doc08">
+          <span class="nav-num">08</span>Métricas de Éxito
+        </a>
+        <a href="#/doc09" class="nav-item" data-doc="doc09">
+          <span class="nav-num">09</span>Comunicación
+        </a>
+        <a href="#/doc10" class="nav-item" data-doc="doc10">
+          <span class="nav-num">10</span>Riesgos
+        </a>
+        <a href="#/doc11" class="nav-item" data-doc="doc11">
+          <span class="nav-num">11</span>Recursos
+        </a>
+      </div>
+
+      <div class="nav-group-label">Referencia</div>
+      <div class="nav-group">
+        <a href="#/glosario" class="nav-item" data-doc="glosario">
+          <span class="nav-num">A–Z</span>Glosario
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      IDS &copy; 2026 &middot; Confidencial
+    </div>
+  </aside>
+
+  <!-- Main content area -->
+  <main class="main-content" id="mainContent">
+    <div id="pageContent"></div>
+  </main>
+
+  <!-- CDN libs -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+
+  <!-- App -->
+  <script src="js/content.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
