@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador DEA-C01 | AWS Certified Data Engineer - Associate</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <svg class="brand-logo" viewBox="0 0 48 48" aria-hidden="true">
+          <rect x="4" y="4" width="40" height="40" rx="8" fill="#232f3e"/>
+          <path d="M14 30c3 2.6 7 4 10 4s7-1.4 10-4" stroke="#ff9900" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <circle cx="17" cy="19" r="3" fill="#ff9900"/>
+          <circle cx="31" cy="19" r="3" fill="#ff9900"/>
+        </svg>
+        <div class="brand-text">
+          <span class="brand-title">Simulador de Examen</span>
+          <span class="brand-subtitle">AWS Certified Data Engineer - Associate (DEA-C01)</span>
+        </div>
+      </div>
+      <div class="header-status" id="headerStatus"></div>
+    </div>
+  </header>
+
+  <main class="app-main">
+
+    <!-- ============ Pantalla de inicio ============ -->
+    <section id="screen-start" class="screen active">
+      <div class="card intro-card">
+        <h1>Prepara tu sesión de examen</h1>
+        <p class="lead">
+          Carga uno o más archivos <code>.md</code> con tu banco de reactivos. El simulador leerá las
+          preguntas, las presentará una a una y al final te mostrará tu calificación con
+          retroalimentación de las preguntas incorrectas.
+        </p>
+
+        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Cargar archivos Markdown">
+          <svg viewBox="0 0 24 24" class="dz-icon" aria-hidden="true">
+            <path d="M12 16V4m0 0l-4 4m4-4l4 4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </svg>
+          <p><strong>Arrastra tus archivos .md aquí</strong> o haz clic para seleccionarlos</p>
+          <p class="dz-hint">Los archivos se procesan localmente en tu navegador; no se suben a ningún servidor.</p>
+          <input type="file" id="fileInput" accept=".md,.markdown,text/markdown" multiple hidden>
+        </div>
+
+        <ul class="file-list" id="fileList"></ul>
+
+        <div class="settings-grid">
+          <div class="setting">
+            <label for="passingScore">Porcentaje mínimo de aprobación</label>
+            <div class="input-suffix">
+              <input type="number" id="passingScore" min="1" max="100" value="72">
+              <span>%</span>
+            </div>
+            <p class="setting-hint">AWS reporta el corte como 720 / 1000 puntos (escala compensatoria), equivalente aproximado al 72%.</p>
+          </div>
+          <div class="setting">
+            <label for="timerMinutes">Tiempo límite (minutos)</label>
+            <div class="input-suffix">
+              <input type="number" id="timerMinutes" min="0" max="600" value="130">
+              <span>min</span>
+            </div>
+            <p class="setting-hint">El examen real dura 130 minutos. Usa 0 para practicar sin límite de tiempo.</p>
+          </div>
+          <div class="setting setting-checks">
+            <label class="check">
+              <input type="checkbox" id="shuffleQuestions">
+              <span>Mezclar el orden de las preguntas</span>
+            </label>
+            <label class="check">
+              <input type="checkbox" id="shuffleOptions">
+              <span>Mezclar el orden de las opciones</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="start-actions">
+          <button class="btn btn-primary btn-lg" id="btnStart" disabled>Iniciar examen</button>
+          <span class="start-summary" id="startSummary"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Pantalla de examen ============ -->
+    <section id="screen-exam" class="screen">
+      <div class="exam-toolbar">
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span id="progressText">Pregunta 1 de 65</span>
+            <span id="answeredText"></span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+        <div class="timer" id="timerBox" title="Tiempo restante">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 9v4l2.5 2.5M9 3h6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+          <span id="timerText">--:--</span>
+        </div>
+      </div>
+
+      <div class="card question-card">
+        <div class="question-meta">
+          <span class="q-badge" id="qNumber">Pregunta 1</span>
+          <span class="q-badge q-badge-multi" id="qMulti" hidden>Selecciona varias respuestas</span>
+          <button class="btn-flag" id="btnFlag" title="Marcar para revisión">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V4m0 1h11l-2.5 4L17 13H6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Marcar</span>
+          </button>
+        </div>
+        <div class="question-body" id="questionBody"></div>
+        <div class="options" id="optionsBox"></div>
+      </div>
+
+      <div class="exam-nav">
+        <button class="btn btn-secondary" id="btnPrev">Anterior</button>
+        <div class="nav-dots" id="navDots"></div>
+        <button class="btn btn-primary" id="btnNext">Siguiente</button>
+        <button class="btn btn-danger" id="btnFinish">Finalizar examen</button>
+      </div>
+    </section>
+
+    <!-- ============ Pantalla de resultados ============ -->
+    <section id="screen-results" class="screen">
+      <div class="card result-card">
+        <div class="result-banner" id="resultBanner">
+          <div class="result-verdict" id="resultVerdict"></div>
+          <div class="result-score">
+            <div class="score-ring" id="scoreRing">
+              <svg viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="52" class="ring-bg"/>
+                <circle cx="60" cy="60" r="52" class="ring-val" id="ringVal"/>
+              </svg>
+              <div class="score-num" id="scoreNum">0%</div>
+            </div>
+          </div>
+        </div>
+        <div class="result-stats" id="resultStats"></div>
+        <div class="result-actions">
+          <button class="btn btn-primary" id="btnRetry">Reintentar este banco</button>
+          <button class="btn btn-secondary" id="btnNewFile">Cargar otro archivo</button>
+          <button class="btn btn-secondary" id="btnToggleReview">Ver todas las preguntas</button>
+        </div>
+      </div>
+
+      <div id="reviewSection">
+        <h2 class="review-title" id="reviewTitle">Retroalimentación: preguntas incorrectas</h2>
+        <div id="reviewList"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>Simulador de práctica no oficial. AWS y AWS Certified Data Engineer son marcas de Amazon Web Services, Inc.</p>
+  </footer>
+
+  <!-- Modal de confirmación -->
+  <div class="modal-backdrop" id="modalBackdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Finalizar examen</h3>
+      <p id="modalBody"></p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="modalCancel">Continuar el examen</button>
+        <button class="btn btn-danger" id="modalConfirm">Finalizar y calificar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
