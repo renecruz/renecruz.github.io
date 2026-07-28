@@ -34,8 +34,8 @@
         <h1>Prepara tu sesión de examen</h1>
         <p class="lead">
           Carga uno o más archivos <code>.md</code> con tu banco de reactivos. El simulador leerá las
-          preguntas, las presentará una a una y al final te mostrará tu calificación con
-          retroalimentación de las preguntas incorrectas.
+          preguntas y las presentará una a una. Puedes revisar cada respuesta al momento de
+          contestarla o esperar al final para ver tu calificación con la retroalimentación completa.
         </p>
 
         <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Cargar archivos Markdown">
@@ -76,6 +76,14 @@
               <input type="checkbox" id="shuffleOptions">
               <span>Mezclar el orden de las opciones</span>
             </label>
+            <label class="check">
+              <input type="checkbox" id="immediateFeedback">
+              <span>Revisión inmediata de cada pregunta</span>
+            </label>
+            <p class="setting-hint" id="feedbackModeHint">
+              Activada, al contestar se muestra si acertaste y la explicación antes de pasar a la
+              siguiente. Desactivada, la retroalimentación llega hasta el final (modo examen real).
+            </p>
           </div>
         </div>
 
@@ -113,6 +121,7 @@
         </div>
         <div class="question-body" id="questionBody"></div>
         <div class="options" id="optionsBox"></div>
+        <div class="feedback-box" id="feedbackBox" role="status" aria-live="polite" hidden></div>
       </div>
 
       <div class="exam-nav">
@@ -155,7 +164,7 @@
   </main>
 
   <footer class="app-footer">
-    <p>Simulador de práctica no oficial. AWS y AWS Certified Data Engineer son marcas de Amazon Web Services, Inc.</p>
+    <p>Simulador de práctica no oficial. AWS y AWS Certified Exam son marcas de Amazon Web Services, Inc.</p>
   </footer>
 
   <!-- Modal de confirmación -->

@@ -15,6 +15,8 @@
     questions: [],        // banco combinado usado en el examen
     answers: [],          // por pregunta: Set de letras seleccionadas
     flags: [],            // por pregunta: boolean
+    revealed: [],         // por pregunta: boolean (retroalimentación ya mostrada)
+    immediateFeedback: false, // revisión inmediata pregunta por pregunta
     current: 0,
     passingScore: 72,
     timerTotalSec: 0,     // 0 = sin límite
@@ -397,9 +399,12 @@
       });
     }
 
+    state.immediateFeedback = $("immediateFeedback").checked;
+
     state.questions = questions;
     state.answers = questions.map(() => new Set());
     state.flags = questions.map(() => false);
+    state.revealed = questions.map(() => false);
     state.current = 0;
     state.finished = false;
     state.showAllReview = false;
@@ -488,6 +493,9 @@
     const box = $("optionsBox");
     box.innerHTML = "";
     const type = q.multi ? "checkbox" : "radio";
+    // Con revisión inmediata, una pregunta ya comprobada queda bloqueada y
+    // muestra en las propias opciones cuáles eran correctas.
+    const locked = isRevealed(state.current);
     q.options.forEach((opt) => {
       const label = document.createElement("label");
       label.className = "option";
@@ -497,6 +505,12 @@
       input.value = opt.letter;
       input.checked = state.answers[state.current].has(opt.letter);
       if (input.checked) label.classList.add("selected");
+      if (locked) {
+        input.disabled = true;
+        label.classList.add("locked");
+        if (opt.correct) label.classList.add("is-correct");
+        else if (input.checked) label.classList.add("is-wrong-pick");
+      }
 
       input.addEventListener("change", () => {
         const sel = state.answers[state.current];
@@ -514,6 +528,7 @@
         renderDots();
         const answeredNow = state.answers.filter((s) => s.size > 0).length;
         $("answeredText").textContent = answeredNow + " respondidas";
+        updateNavButtons();
       });
 
       const letter = document.createElement("span");
@@ -528,12 +543,103 @@
       box.appendChild(label);
     });
 
+    renderFeedback();
+
     // Navegación: "Finalizar examen" siempre disponible; "Siguiente" se
     // oculta solo en la última pregunta.
     $("btnPrev").disabled = state.current === 0;
-    $("btnNext").hidden = state.current === total - 1;
+    updateNavButtons();
 
     renderDots();
+  }
+
+  /* ------------------------------------------------------------------
+   * Revisión inmediata (retroalimentación pregunta por pregunta)
+   * ------------------------------------------------------------------ */
+
+  function isAnswered(i) {
+    return state.answers[i] && state.answers[i].size > 0;
+  }
+
+  function isRevealed(i) {
+    return state.immediateFeedback && !!state.revealed[i];
+  }
+
+  // Hay retroalimentación pendiente cuando la pregunta actual está contestada
+  // pero aún no se comprueba: en ese caso no se avanza sin verla.
+  function feedbackPending() {
+    return state.immediateFeedback && isAnswered(state.current) && !state.revealed[state.current];
+  }
+
+  // El botón "Siguiente" cumple tres papeles según el estado de la pregunta:
+  // comprobar la respuesta, avanzar, o finalizar en la última pregunta. Su
+  // texto y su estilo nunca cambian: la diferencia es solo de comportamiento.
+  function updateNavButtons() {
+    const last = state.current === state.questions.length - 1;
+    // En modo examen real se oculta en la última pregunta, como siempre; con
+    // revisión inmediata permanece para poder comprobar y cerrar el examen.
+    $("btnNext").hidden = last && !state.immediateFeedback;
+  }
+
+  function revealCurrent() {
+    if (!state.immediateFeedback || !isAnswered(state.current)) return;
+    state.revealed[state.current] = true;
+    renderQuestion();
+    $("feedbackBox").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  // Panel de retroalimentación bajo las opciones de la pregunta actual.
+  function renderFeedback() {
+    const boxEl = $("feedbackBox");
+    boxEl.innerHTML = "";
+    if (!isRevealed(state.current)) {
+      boxEl.hidden = true;
+      boxEl.className = "feedback-box";
+      return;
+    }
+
+    const q = state.questions[state.current];
+    const sel = state.answers[state.current];
+    const ok = isCorrect(q, sel);
+
+    boxEl.hidden = false;
+    boxEl.className = "feedback-box " + (ok ? "feedback-ok" : "feedback-bad");
+
+    const head = document.createElement("div");
+    head.className = "feedback-head";
+
+    const mark = document.createElement("span");
+    mark.className = "feedback-mark";
+    mark.textContent = ok ? "✓" : "✗";
+
+    const title = document.createElement("span");
+    title.className = "feedback-title";
+    title.textContent = ok ? "Respuesta correcta" : "Respuesta incorrecta";
+
+    const detail = document.createElement("span");
+    detail.className = "feedback-detail";
+    detail.textContent = "Respuesta" + (q.correct.length > 1 ? "s correctas: " : " correcta: ") +
+      q.correct.join(", ");
+
+    head.append(mark, title, detail);
+    boxEl.appendChild(head);
+
+    // Sin el resumen de letras: el encabezado del panel ya las muestra.
+    const exp = buildExplanation(q, false);
+    if (exp) boxEl.appendChild(exp);
+  }
+
+  // Bloque de explicación reutilizado por la revisión inmediata y la final.
+  function buildExplanation(q, includeSummary) {
+    const withSummary = includeSummary !== false && !!q.answerSummary;
+    if (!q.explanation && !withSummary) return null;
+    const exp = document.createElement("div");
+    exp.className = "review-explanation";
+    let html = "<h4>Explicación</h4>";
+    if (withSummary) html += mdToHtml(q.answerSummary);
+    if (q.explanation) html += mdToHtml(q.explanation);
+    exp.innerHTML = html;
+    return exp;
   }
 
   function numName(n) {
@@ -564,9 +670,20 @@
     if (state.current > 0) { state.current--; renderQuestion(); }
   });
 
-  $("btnNext").addEventListener("click", () => {
-    if (state.current < state.questions.length - 1) { state.current++; renderQuestion(); }
-  });
+  $("btnNext").addEventListener("click", () => goNext(true));
+
+  // allowFinish: solo el clic en el botón puede disparar el cierre del examen;
+  // el atajo de teclado nunca abre el diálogo de finalizar.
+  function goNext(allowFinish) {
+    // En modo revisión inmediata, comprobar la respuesta antes de avanzar.
+    if (feedbackPending()) { revealCurrent(); return; }
+    if (state.current < state.questions.length - 1) {
+      state.current++;
+      renderQuestion();
+      return;
+    }
+    if (allowFinish && state.immediateFeedback) promptFinish();
+  }
 
   $("btnFlag").addEventListener("click", () => {
     state.flags[state.current] = !state.flags[state.current];
@@ -578,8 +695,8 @@
   document.addEventListener("keydown", (e) => {
     if (!$("screen-exam").classList.contains("active")) return;
     if (e.target.tagName === "INPUT" && e.target.type === "number") return;
-    if (e.key === "ArrowRight" && state.current < state.questions.length - 1) {
-      state.current++; renderQuestion();
+    if (e.key === "ArrowRight" && (feedbackPending() || state.current < state.questions.length - 1)) {
+      goNext();
     } else if (e.key === "ArrowLeft" && state.current > 0) {
       state.current--; renderQuestion();
     }
@@ -589,14 +706,16 @@
    * Finalizar y calificar
    * ------------------------------------------------------------------ */
 
-  $("btnFinish").addEventListener("click", () => {
+  $("btnFinish").addEventListener("click", promptFinish);
+
+  function promptFinish() {
     const unanswered = state.answers.filter((s) => s.size === 0).length;
     const msg = unanswered > 0
       ? "Tienes " + unanswered + " pregunta(s) sin responder. Las preguntas sin respuesta se calificarán como incorrectas. ¿Deseas finalizar?"
       : "Has respondido todas las preguntas. ¿Deseas finalizar y ver tu calificación?";
     $("modalBody").textContent = msg;
     $("modalBackdrop").hidden = false;
-  });
+  }
 
   $("modalCancel").addEventListener("click", () => { $("modalBackdrop").hidden = true; });
   $("modalConfirm").addEventListener("click", () => {
@@ -751,15 +870,8 @@
 
       item.append(head, body, opts);
 
-      if (q.explanation || q.answerSummary) {
-        const exp = document.createElement("div");
-        exp.className = "review-explanation";
-        let html = "<h4>Explicación</h4>";
-        if (q.answerSummary) html += mdToHtml(q.answerSummary);
-        if (q.explanation) html += mdToHtml(q.explanation);
-        exp.innerHTML = html;
-        item.appendChild(exp);
-      }
+      const exp = buildExplanation(q);
+      if (exp) item.appendChild(exp);
 
       list.appendChild(item);
     });

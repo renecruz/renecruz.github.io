@@ -458,6 +458,56 @@ pre code {
 .option .opt-text p:last-child { margin-bottom: 0; }
 .option .opt-text pre { margin: 8px 0 0; }
 
+/* Opciones bloqueadas tras comprobar la respuesta (revisión inmediata) */
+
+.option.locked { cursor: default; }
+.option.locked:hover { border-color: var(--border); background: #fff; }
+
+.option.locked.is-correct,
+.option.locked.is-correct:hover {
+  border-color: #bcd9b3;
+  background: var(--success-bg);
+  box-shadow: 0 0 0 1px var(--success);
+}
+
+.option.locked.is-wrong-pick,
+.option.locked.is-wrong-pick:hover {
+  border-color: #eab6aa;
+  background: var(--danger-bg);
+  box-shadow: 0 0 0 1px var(--danger);
+}
+
+.option.locked input { cursor: default; }
+
+/* ---------- Retroalimentación inmediata ---------- */
+
+.feedback-box {
+  margin-top: 22px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  background: #fafbfb;
+}
+
+.feedback-box.feedback-ok { border-color: #bcd9b3; background: var(--success-bg); }
+.feedback-box.feedback-bad { border-color: #eab6aa; background: var(--danger-bg); }
+
+.feedback-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.feedback-mark { font-size: 1.25rem; font-weight: 700; line-height: 1; }
+.feedback-title { font-weight: 700; font-size: 1.02rem; }
+.feedback-detail { color: var(--text-soft); font-size: 0.9rem; }
+
+.feedback-ok .feedback-mark, .feedback-ok .feedback-title { color: var(--success); }
+.feedback-bad .feedback-mark, .feedback-bad .feedback-title { color: var(--danger); }
+
+.feedback-box .review-explanation { margin-top: 14px; }
+
 /* ---------- Navegación del examen ---------- */
 
 .exam-nav {
